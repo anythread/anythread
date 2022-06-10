@@ -1,6 +1,7 @@
 :root {
   --colorBackground: #1a1817;
   --colorBackground2: #4f3640;
+  --colorBackground3: #6d4a58;
   --colorBorder: #FFB7D3;
   --colorBorderTrans: #ffb7d373;
   --colorText: #FFB7D3;  
@@ -8,6 +9,7 @@
 
   --colorPrime: #FFB7D3;
   --colorSecond: #FFE4B8;
+  --colorSecondTrans: #ffe4b841;
   --colorTerca: #B8FFE4;
   --colorTetra: #B8D3FF;
 }
@@ -54,20 +56,23 @@ input {
   display: inline-block;
   font-size: 16px;
 }
-
+/* input.hover { 
+  background-color: var(--colorTextHighlight);
+} */
 .btn {
   border: 1px solid var(--colorBorder);
-  background-color: var(--colorBackground2);
+  background-color: var(--colorBackground3);
   color: var(--colorText);
   font-weight: bold;
   padding: 14px 28px;
   font-size: 16px;
   cursor: pointer;
 }
-.btn.hover {
-  background-size: 400% 400%;
-  background: radial-gradient(circle, var(--colorSecond) 0%, var(--colorTerca) 55%, var(--colorBackground) 100%);
-	animation: gradient 15s ease infinite;
+.btn:hover {
+  background: var(--colorSecondTrans);
+  color: var(--colorSecond);
+  background: radial-gradient(circle, var(--colorBackground) 0%, var(--colorBackground2) 55%, var(--colorBackground) 100%);
+	animation: gradient 1s ease infinite;
 }
 
 .commentInput {
@@ -83,7 +88,7 @@ input {
 }
 
 .success:hover {
-  background-color: var(--colorTerca);
+  background-color: var(--colorSecondTrans);
   border-color: #04AA6D;
   color: white;
 }
@@ -97,6 +102,7 @@ input {
   border: 1px solid var(--colorBorder);
   border-radius: 15px;
   background-size: 400% 400%;
+  display: flexbox;
   
   //background: radial-gradient(circle, var(--colorBackground) 0%, var(--colorBackground2) 55%, var(--colorBackground) 100%);
 	//animation: gradient 1s ease infinite;
@@ -107,12 +113,20 @@ input {
   background-size: 100% 100%;
   background-color: linear-gradient(circle, var(--colorBackground2) 0%, var(--colorBackground) 55%, var(--colorBackground2) 100%);
 	animation: gradientCommentItem 1s ease infinite;
-  display: grid;
+  display: block;
   margin: 10px;
+  margin-top: 7px;
+  //margin-bottom: 35px;
 }
-
+.anythread-comment:hover {
+  background: var(--colorSecondTrans);
+}
 .anythread-comment-name {
   font-size: smaller;
+
+  position: absolute;
+  left: 25px;
+  text-justify: left;
 
 }
 .anythread-comment-date {
@@ -122,7 +136,9 @@ input {
   text-justify: right;
 }
 .anythread-comment-content {
-  
+  margin: 10px;
+  margin-top: 25px;
+  text-align: left;
 }
 
 @media (prefers-reduced-motion: no-preference) {

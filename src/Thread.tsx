@@ -15,10 +15,16 @@ type Comment = {
   timestamp: string
   description: string
   topic: string
+  //Comment: []
 }
 const comments: Comment[] = [
   { description: 'comment 1 some really long long long stuff ', topic: 'topic 1', timestamp: '2020-01-01' },
-  { description: 'comment 2', topic: 'topic 2', timestamp: '2020-01-02' },
+  {
+    description:
+      'comment 5 we will see it this works and then will be cake fhaosihd doasidofh aodf haosdfahdo ihaosdfihaosdifoia hofih ofaihd odafh oasihdf oasdhif oiasdho fihadso ihafoihaosdfhoasdih oaisf h',
+    topic: 'topic 5',
+    timestamp: '2020-01-05',
+  },
   { description: 'comment 3', topic: 'topic 3', timestamp: '2020-01-03' },
   { description: 'comment 4', topic: 'topic 4', timestamp: '2020-01-04' },
   { description: 'comment 5', topic: 'topic 5', timestamp: '2020-01-05' },
@@ -30,7 +36,8 @@ const comments: Comment[] = [
   { description: 'comment 3', topic: 'topic 3', timestamp: '2020-01-03' },
   { description: 'comment 4', topic: 'topic 4', timestamp: '2020-01-04' },
   {
-    description: 'comment 5 we will see it this works and then will be cake',
+    description:
+      'comment 5 we will see it this works and then will be cake fhaosihd doasidofh aodf haosdfahdo ihaosdfihaosdifoia hofih ofaihd odafh oasihdf oasdhif oiasdho fihadso ihafoihaosdfhoasdih oaisf h',
     topic: 'topic 5',
     timestamp: '2020-01-05',
   },
@@ -136,7 +143,7 @@ export default function Thread({
             value={commentText}
             onChange={e => setCommentText(e.target.value)}
           />
-          <input className="btn" type="submit" value="Submit" />
+          <input className="btn" type="submit" value="Comment" />
         </form>
       </div>
       <div className="comments-section">{commentItems}</div>
