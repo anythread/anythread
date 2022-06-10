@@ -25,7 +25,7 @@ const sanitizeContentHash = (): HexString<64> => {
 
 function App() {
   const [contentHash, setContentHash] = useState(sanitizeContentHash())
-  const [bee, setBee] = useState(new Bee('http://localhost:1633'))
+  const [bee, setBee] = useState(new Bee('http://localhost:1633')) // 'https://gateway.fairdatasociety.org/bzz'))
   const [loadingThreadId, setLoadingThreadId] = useState<[number, number]>([0, 0])
   const [wallet, setWallet] = useState(Wallet.createRandom())
 
@@ -72,7 +72,7 @@ function App() {
 
   return (
     <div className="App">
-      <h2>AnyThread</h2>
+      <h1>AnyThread</h1>
       <div className="anythread-body">
         <Thread
           bee={bee}
