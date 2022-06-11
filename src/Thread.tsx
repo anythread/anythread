@@ -35,6 +35,7 @@ export default function Thread({
   const graffitiFeed = new GraffitiFeed(bee, Utils.hexToBytes(contentHash), VERSION_HASH)
   const [childrenElements, setChildrenElements] = useState<ReactElement[]>([])
   const [commentText, setCommentText] = useState('')
+  const [submited, settSubmited] = useState(false)
 
   useEffect(() => {
     initDoneFn(level, orderNo)
@@ -93,23 +94,32 @@ export default function Thread({
       text: commentText,
       timestamp: Date.now(),
       contentHash: contentHash,
+      ethAddress: await wallet.getAddress(),
     }
+    settSubmited(true)
     const data = JSON.stringify(post)
     await userComment.writeComment(data, wallet)
     await graffitiFeed.broadcastEthAddresses([Utils.makeEthAddress(wallet.address.replace('0x', ''))])
+    settSubmited(false)
   }
 
   return (
     <div>
-      <ContentView contentHash={contentHash} bee={bee} />
-      <div children={childrenElements}></div>
+      <ContentView contentHash={contentHash} bee={bee} level={level} />
 
-      <div className="write-comment">
-        <form onSubmit={handleSendComment}>
-          <input type="text" value={commentText} onChange={e => setCommentText(e.target.value)} />
-          <input type="submit" value="Submit" />
-        </form>
-      </div>
+      <div children={childrenElements}></div>
+      {level > 0 ? null : (
+        <div className="write-comment">
+          <form onSubmit={handleSendComment}>
+            <input type="text" value={commentText} onChange={e => setCommentText(e.target.value)} />
+            {submited ? (
+              <input className="btn" type="submit" disabled value="Wait..." />
+            ) : (
+              <input className="btn" type="submit" value="Submit" />
+            )}
+          </form>
+        </div>
+      )}
     </div>
   )
 }

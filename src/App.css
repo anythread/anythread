@@ -93,6 +93,14 @@ input {
 	animation: gradient 1s ease infinite;
 }
 
+.btn:disabled {
+  background: var(--colorBackground);
+  color: var(--colorBackground3);
+  //background: radial-gradient(circle, var(--colorBackground) 0%, var(--colorBackground2) 55%, var(--colorBackground) 100%);
+	animation: gradient 1s ease infinite;
+}
+
+
 .commentInput {
   background-size: 400% 400%;
   background: radial-gradient(circle, var(--colorBackground) 0%, var(--colorBackground2) 55%, var(--colorBackground) 100%);
@@ -125,13 +133,26 @@ input {
 	background-size: 800% 800%;
 	animation: gradient 11s ease-in-out infinite;
 }
-.anythread-comment {
+.anythread-section {
   border: 1px solid var(--colorBorderTrans);
   border-radius: 7px;
   display: block;
   margin: 10px;
   margin-top: 7px; 
   box-shadow: 3px 5px 50px 10 rgb(0 0 0 / 30%);
+  max-width: 100%;
+  align-items: center;
+}
+
+.anythread-comment {
+  border: 1px solid var(--colorBorderTrans);
+  border-radius: 7px;
+  display: block;
+  margin: 0 auto;
+  margin-top: 7px; 
+  box-shadow: 3px 5px 50px 10 rgb(0 0 0 / 30%);
+  max-width: 780px;
+  
 }
 .anythread-comment:hover {
   background: var(--colorSecondTrans);
@@ -140,17 +161,17 @@ input {
   //transform: scale(1.001); 
 
 }
+
 .anythread-comment-name {
   font-size: smaller;
-
   position: absolute;
-  left: 25px;
+  margin-left: 5px;
   text-justify: left;
-
+  margin-top: -3px;
 }
 .anythread-comment-date {
   font-size: smaller;
-  position: absolute;
+  //position: absolute;
   right: 25px;
   text-justify: right;
 }
@@ -159,6 +180,14 @@ input {
   margin-top: 25px;
   text-align: left;
 }
+
+.anythread-comment-address {
+  font-size: smaller;
+  //position: absolute;
+  //top: 25px;
+  text-justify: right;
+}
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

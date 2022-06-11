@@ -7,6 +7,7 @@ import { Bee, Utils } from '@ethersphere/bee-js'
 interface Props {
   contentHash: string
   bee: Bee
+  level: number
 }
 
 function getBzzLink(contentHash: string): string {
@@ -19,11 +20,12 @@ function getBzzLink(contentHash: string): string {
   }
 }
 
-export default function ContentView({ contentHash, bee }: Props): ReactElement {
+export default function ContentView({ contentHash, bee, level }: Props): ReactElement {
   const [bzzLink, setBzzLink] = useState('')
   const [text, setText] = useState('')
   const [timestamp, setTimestamp] = useState('')
   const [hash, setHash] = useState('')
+  const [ethAddress, setEthAddress] = useState('0x')
 
   useEffect(() => {
     setBzzLink(getBzzLink(contentHash))
@@ -34,8 +36,8 @@ export default function ContentView({ contentHash, bee }: Props): ReactElement {
       setText(post.text)
       setTimestamp(post.timestamp)
       setHash(post.contentHash)
-      const date = new Date(timestamp).toDateString()
-      console.log('data', data, jsonString, post, date)
+      setEthAddress(post.ethAddress)
+      console.log('data', data, jsonString, post, timestamp)
     })
     console.log('contentHash', contentHash)
   }, [contentHash])
@@ -45,9 +47,10 @@ export default function ContentView({ contentHash, bee }: Props): ReactElement {
       <div>
         <h2>{text}</h2>
         <div className="anythread-comment-name">
-          <a href={bzzLink}>BZZ link</a> <a href={'/#' + contentHash}>Content</a>
+          <a href={bzzLink}>BZZ link</a> <a href={'/#' + contentHash}>View</a>
         </div>
-        <div className="anythread-comment-timestamp">{timestamp}</div>
+        <div className="anythread-comment-date">{new Date(Number(timestamp)).toDateString()}</div>
+        <div className="anythread-comment-address">{ethAddress}🦄</div>
         {/* <div className="anythread-comment-content">{hash}</div> */}
       </div>
     </div>
