@@ -1,6 +1,8 @@
 import { Utils as BeeJsUtils } from '@ethersphere/bee-js'
 import { Utils as MantarayUtils } from 'mantaray-js'
 import * as SwarmCid from '@ethersphere/swarm-cid'
+import { Bytes } from '@ethersphere/bee-js/dist/types/utils/bytes'
+import { Wallet } from 'ethers'
 
 /** Used as a rootThreat topic */
 export const VERSION_HASH = MantarayUtils.keccak256Hash('633chan:v1')
@@ -25,4 +27,10 @@ export function isSwarmCid(input: string): boolean {
       return false
     }
   }
+}
+
+export function getEthereumAddress(privateKey: Bytes<32>): string {
+  const wallet = new Wallet(privateKey)
+
+  return wallet.address
 }
