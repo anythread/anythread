@@ -33,6 +33,7 @@ function App() {
   const [loadingThreadId, setLoadingThreadId] = useState<[number, number]>([0, 0])
   const [wallet, setWallet] = useState(Wallet.createRandom())
 
+  // constructor
   useEffect(() => {
     const valami = () => {
       console.log('hashchange1', window.location.hash)
@@ -41,26 +42,43 @@ function App() {
     }
     window.addEventListener('hashchange', valami)
 
-    // key init
-    const setStringKey = (key: string) => {
-      const keyBytes = Utils.hexToBytes(key)
-      setByteKey(keyBytes)
-    }
-
     /** bytes represent hex keys */
     const setByteKey = (keyBytes: Uint8Array) => {
       const wallet = new Wallet(keyBytes)
       setWallet(wallet)
     }
 
-    const windowPrivKey = window.localStorage.getItem('private_key')
+    const setStringKey = (key: string) => {
+      const keyBytes = Utils.hexToBytes(key)
+      setByteKey(keyBytes)
+    }
 
-    if (windowPrivKey) {
-      setStringKey(windowPrivKey)
+    // bee init
+    if (window.swarm && window.origin === 'null') {
+      const beeUrl = window.swarm.web2Helper.fakeBeeApiAddress()
+      setBee(new Bee(beeUrl))
+      ;(async () => {
+        //private key handling
+        const windowPrivKey = await window.swarm.localStorage.getItem('private_key')
+
+        if (windowPrivKey) {
+          setStringKey(windowPrivKey)
+        } else {
+          const key = wallet.privateKey.replace('0x', '')
+          await window.swarm.localStorage.setItem('private_key', key)
+        }
+      })()
     } else {
-      const key = hexToBytes(wallet.privateKey.replace('0x', ''))
-      window.localStorage.setItem('private_key', Utils.bytesToHex(key))
-      setByteKey(key)
+      // key init
+      const windowPrivKey = window.localStorage.getItem('private_key')
+
+      if (windowPrivKey) {
+        setStringKey(windowPrivKey)
+      } else {
+        const key = hexToBytes(wallet.privateKey.replace('0x', ''))
+        window.localStorage.setItem('private_key', Utils.bytesToHex(key))
+        setByteKey(key)
+      }
     }
   }, [])
 

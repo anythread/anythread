@@ -7,13 +7,13 @@ interface DbRecord {
   ethAddresses: HexEthAddress[]
 }
 
-function isPirateDbElement(value: unknown): value is DbRecord {
+function isGraffitiFeedElement(value: unknown): value is DbRecord {
   return value !== null && typeof value === 'object' && Object.keys(value)[0] === 'ethAddresses'
 }
 
-function assertPirateDbElement(value: unknown): asserts value is DbRecord {
-  if (!isPirateDbElement(value)) {
-    throw new Error('PublicPirateDb record is not valid')
+function assertGraffitiFeedElement(value: unknown): asserts value is DbRecord {
+  if (!isGraffitiFeedElement(value)) {
+    throw new Error('GraffitiFeed record is not valid')
   }
 }
 
@@ -21,11 +21,11 @@ function deserialiseDbRecord(value: Uint8Array): DbRecord {
   try {
     const valueString = new TextDecoder().decode(value)
     const valueObject = JSON.parse(valueString)
-    assertPirateDbElement(valueObject)
+    assertGraffitiFeedElement(valueObject)
 
     return valueObject
   } catch (e) {
-    throw new Error('fetched PublicPirateDb record is not valid')
+    throw new Error('fetched GraffitiFeed record is not valid')
   }
 }
 
@@ -39,7 +39,7 @@ function mergeRecords(e1: DbRecord, e2: DbRecord): DbRecord {
   return { ethAddresses: [...e1.ethAddresses, ...e2EthAddresses] }
 }
 
-export default class PublicPirateDb {
+export default class GraffitiFeed {
   constructor(private bee: Bee, private privateKey: Bytes<32>, private topic: Bytes<32>) {}
 
   public async broadcastEthAddresses(ethAddresses: Utils.EthAddress[]): Promise<Reference> {
