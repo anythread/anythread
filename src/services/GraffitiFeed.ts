@@ -1,5 +1,4 @@
 import { Bee, Utils, Reference } from '@ethersphere/bee-js'
-import { Wallet } from 'ethers'
 import { Bytes } from 'mantaray-js'
 import { getEthereumAddress, HexEthAddress, STAMP_ID } from '../Utility'
 
