@@ -93,8 +93,8 @@ function App() {
   }
 
   return (
-    <Router> 
-      <div className="App"> 
+    <Router>
+      <div className="App">
         <h1>AnyThread</h1>
         <div className="anythread-body">
           <Routes>
