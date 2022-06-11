@@ -1,7 +1,7 @@
 import { Bee, Utils, Reference } from '@ethersphere/bee-js'
 import { Wallet } from 'ethers'
 import { Bytes } from 'mantaray-js'
-import { HexEthAddress, STAMP_ID } from '../Utility'
+import { getEthereumAddress, HexEthAddress, STAMP_ID } from '../Utility'
 
 interface DbRecord {
   ethAddresses: HexEthAddress[]
@@ -54,7 +54,7 @@ export default class GraffitiFeed {
   }
 
   public async getLatestRecord(): Promise<DbRecord | null> {
-    const feedReader = this.bee.makeFeedReader('sequence', this.topic, this.privateKey)
+    const feedReader = this.bee.makeFeedReader('sequence', this.topic, getEthereumAddress(this.privateKey))
     try {
       const feedUpdate = await feedReader.download()
       const data = await this.bee.downloadData(feedUpdate.reference)

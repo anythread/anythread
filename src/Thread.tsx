@@ -63,6 +63,7 @@ export default function Thread({
       setChildrenElements([
         ...childrenElements,
         <Thread
+          key={`${level + 1}-${Number(index)}`}
           contentHash={contentHash}
           level={level + 1}
           orderNo={Number(index)}
