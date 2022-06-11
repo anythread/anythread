@@ -3,7 +3,7 @@ import { Wallet } from 'ethers'
 import { FormEvent, ReactElement, useState } from 'react'
 import { useEffect } from 'react'
 import ContentView from './ContentView'
-import PublicPirateDb from './services/PublicPirateDb'
+import GraffitiFeed from './services/GraffitiFeed'
 import UserComment from './services/UserComment'
 import { VERSION_HASH } from './Utility'
 const { hexToBytes } = Utils
@@ -11,7 +11,7 @@ const { hexToBytes } = Utils
 const DEFAULT_CHILDREN_COUNT = 5
 
 interface Props {
-  contentHash: string // -> PublicPirateDb get users + content fetch
+  contentHash: string // -> GraffitiFeed get users + content fetch
   level: number
   orderNo: number
   loadingThreadId: [number, number]
@@ -32,7 +32,7 @@ export default function Thread({
   initDoneFn,
   wallet,
 }: Props) {
-  const publicPirateDb = new PublicPirateDb(bee, Utils.hexToBytes(contentHash), VERSION_HASH)
+  const graffitiFeed = new GraffitiFeed(bee, Utils.hexToBytes(contentHash), VERSION_HASH)
   const [childrenElements, setChildrenElements] = useState<ReactElement[]>([])
   const [commentText, setCommentText] = useState('')
 
@@ -49,7 +49,7 @@ export default function Thread({
   }, [loadingThreadId])
 
   const initChildren = async () => {
-    const record = await publicPirateDb.getLatestRecord()
+    const record = await graffitiFeed.getLatestRecord()
 
     if (!record) {
       initChildrenDoneFn(level, orderNo) //children has
@@ -81,7 +81,7 @@ export default function Thread({
     e.preventDefault()
     const userComment = new UserComment(bee, contentHash)
     await userComment.writeComment(commentText, wallet)
-    await publicPirateDb.broadcastEthAddresses([Utils.makeEthAddress(wallet.address.replace('0x', ''))])
+    await graffitiFeed.broadcastEthAddresses([Utils.makeEthAddress(wallet.address.replace('0x', ''))])
   }
 
   return (
