@@ -38,7 +38,7 @@ export default function Thread({
 
   useEffect(() => {
     initDoneFn(level, orderNo)
-  })
+  }, [])
 
   useEffect(() => {
     if (loadingThreadId[0] === level && loadingThreadId[1] === orderNo) {
