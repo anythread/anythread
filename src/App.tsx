@@ -5,6 +5,7 @@ import Thread from './Thread'
 import { Bee, Utils } from '@ethersphere/bee-js'
 import { Wallet } from 'ethers'
 import { HexString } from '@ethersphere/bee-js/dist/types/utils/hex'
+//import Router from 'react-dom-router'
 
 const { hexToBytes } = Utils
 
@@ -25,7 +26,9 @@ const sanitizeContentHash = (): HexString<64> => {
 
 function App() {
   const [contentHash, setContentHash] = useState(sanitizeContentHash())
-  const [bee, setBee] = useState(new Bee('http://localhost:1633')) // 'https://gateway.fairdatasociety.org/bzz'))
+  const [bee, setBee] = useState(new Bee('http://localhost:1633'))
+  //const [bee, setBee] = useState(new Bee('https://gateway.fairdatasociety.org/bzz'))
+  //const [bee, setBee] = useState(new Bee('https://gateway.ethswarm.org/bzz'))
   const [loadingThreadId, setLoadingThreadId] = useState<[number, number]>([0, 0])
   const [wallet, setWallet] = useState(Wallet.createRandom())
 
