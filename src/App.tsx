@@ -2,9 +2,11 @@ import './App.css'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import Thread from './Thread'
+import Home from './Home'
 import { Bee, Utils } from '@ethersphere/bee-js'
 import { Wallet } from 'ethers'
 import { HexString } from '@ethersphere/bee-js/dist/types/utils/hex'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 const { hexToBytes } = Utils
 
@@ -26,6 +28,8 @@ const sanitizeContentHash = (): HexString<64> => {
 function App() {
   const [contentHash, setContentHash] = useState(sanitizeContentHash())
   const [bee, setBee] = useState(new Bee('http://localhost:1633'))
+  //const [bee, setBee] = useState(new Bee('https://gateway.fairdatasociety.org/bzz'))
+  //const [bee, setBee] = useState(new Bee('https://gateway.ethswarm.org/bzz'))
   const [loadingThreadId, setLoadingThreadId] = useState<[number, number]>([0, 0])
   const [wallet, setWallet] = useState(Wallet.createRandom())
 
@@ -89,21 +93,31 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <h2>AnyThread</h2>
-      <div className="anythread-body">
-        <Thread
-          bee={bee}
-          contentHash={contentHash}
-          level={0}
-          orderNo={0}
-          loadingThreadId={loadingThreadId}
-          initChildrenDoneFn={initChildrenDoneFn}
-          initDoneFn={initDoneFn}
-          wallet={wallet}
-        />
+    <Router>
+      <div className="App">
+        <h1>AnyThread</h1>
+        <div className="anythread-body">
+          <Routes>
+            <Route path="/" element={<Home wallet={wallet} bee={bee} />} />
+            <Route
+              path="/:topic"
+              element={
+                <Thread
+                  bee={bee}
+                  contentHash={contentHash}
+                  level={0}
+                  orderNo={0}
+                  loadingThreadId={loadingThreadId}
+                  initChildrenDoneFn={initChildrenDoneFn}
+                  initDoneFn={initDoneFn}
+                  wallet={wallet}
+                />
+              }
+            />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </Router>
   )
 }
 

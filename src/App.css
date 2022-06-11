@@ -1,10 +1,162 @@
+:root {
+  --colorBackground: #1b1216;
+  --colorBackground1: #2f2127;
+  --colorBackground2: #48313a;
+  --colorBackground3: #593c48;
+  
+  --colorBorder: #ffb7d3cd;
+  --colorBorderTrans: #ffb7d373;
+  --colorText: #FFB7D3;  
+  --colorTextHighlight: #ffdae8;  
+
+  --colorPrime: #FFB7D3;
+  --colorSecond: #FFE4B8;
+  --colorSecondTrans: #4f364077;
+  --colorTerca: #B8FFE4;
+  --colorTetra: #B8D3FF;
+}
+
+body { 
+  background: var(--colorBackground);
+  background: radial-gradient(circle, var(--colorBackground) 0%, var(--colorBackground1) 55%, var(--colorBackground) 100%);
+	background-size: 800% 800%;
+	animation: gradient 42s ease infinite;
+
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  -webkit-transition: all 0.5s ease-in-ou3t;
+  -ms-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;    
+
+  box-shadow: 0px 0px 1px 10 rgb(0 0 0 / 30%);
+  transition: box-shadow 2.3s ease-in-out;
+}
+
+body *:hover { 
+  /* box-shadow: 3px 15px 50px rgb(0 0 0 / 30%); */
+}
+
 .App {
+  margin: 0;
   text-align: center;
+  color: var(--colorText);
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+h1 { 
+  animation: tilt-n-move-shaking 10.2s ease infinite;
+}
+h2 {
+  color: var(--colorText);
+  font-size: large;
+}
+
+a {
+  color: var(--colorSecond);
+}
+
+div {
+  margin: 0.1vmax;
+}
+
+input {
+  background-color: var(--colorBackground2);
+  border-radius: 15px;
+  border: 1px solid var(--colorBorder);
+  color: var(--colorTextHighlight);
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+/* input.hover { 
+  background-color: var(--colorTextHighlight);
+} */
+.btn {
+  border: 1px solid var(--colorBorder);
+  background-color: var(--colorBackground3);
+  color: var(--colorText);
+  font-weight: bold;
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.btn:hover {
+  background: var(--colorSecondTrans);
+  color: var(--colorSecond);
+  //background: radial-gradient(circle, var(--colorBackground) 0%, var(--colorBackground2) 55%, var(--colorBackground) 100%);
+	animation: gradient 1s ease infinite;
+}
+
+.commentInput {
+  background-size: 400% 400%;
+  background: radial-gradient(circle, var(--colorBackground) 0%, var(--colorBackground2) 55%, var(--colorBackground) 100%);
+	animation: gradient 15s ease infinite;
+}
+
+/* Green */
+.success {
+  border-color: #04AA6D;
+  color: green;
+}
+
+.success:hover {
+  background-color: var(--colorSecondTrans);
+  border-color: #04AA6D;
+  color: white;
+}
+
+.write-comment {
+  padding: 21px;
+  margin: 10px;
+}
+
+.comments-section {
+  border: 1px solid var(--colorBorder);
+  border-radius: 15px;
+  background-size: 800% 800%;
+  display: flexbox;
+  background: radial-gradient(circle, var(--colorBackground1) 0%, var(--colorBackground2) 55%, var(--colorBackground1) 100%);
+	background-size: 800% 800%;
+	animation: gradient 11s ease-in-out infinite;
+}
+.anythread-comment {
+  border: 1px solid var(--colorBorderTrans);
+  border-radius: 7px;
+  display: block;
+  margin: 10px;
+  margin-top: 7px; 
+  box-shadow: 3px 5px 50px 10 rgb(0 0 0 / 30%);
+}
+.anythread-comment:hover {
+  background: var(--colorSecondTrans);
+  box-shadow: 3px 3px 50px rgb(0 0 0 / 30%);
+  color: var(--colorTextHighlight);
+  //transform: scale(1.001); 
+
+}
+.anythread-comment-name {
+  font-size: smaller;
+
+  position: absolute;
+  left: 25px;
+  text-justify: left;
+
+}
+.anythread-comment-date {
+  font-size: smaller;
+  position: absolute;
+  right: 25px;
+  text-justify: right;
+}
+.anythread-comment-content {
+  margin: 10px;
+  margin-top: 25px;
+  text-align: left;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -35,4 +187,36 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+@keyframes gradientCommentItem {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 200% 100%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+@keyframes tilt-n-move-shaking {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(3px, 3px) rotate(2deg); }
+  50% { transform: translate(0, 0) rotate(0eg); }
+  75% { transform: translate(-3px, 3px) rotate(-2deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
 }

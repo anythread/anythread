@@ -3,11 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ethersphere/bee-js": "^4.1.1",
     "@ethersphere/swarm-cid": "^0.1.0",
     "ethers": "^5.6.8",
     "mantaray-js": "^1.0.3",
     "react": "^18.1.0",
-    "react-dom": "^18.1.0"
+    "react-dom": "^18.1.0",
+    "react-linkify": "^1.0.0-alpha",
+    "react-router": "^6.3.0",
+    "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",
@@ -17,6 +21,7 @@
     "@types/node": "^16.11.26",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.5",
+    "@types/react-linkify": "^1.0.1",
     "@typescript-eslint/eslint-plugin": "^5.26.0",
     "@typescript-eslint/parser": "^5.26.0",
     "eslint-config-prettier": "^8.5.0",
