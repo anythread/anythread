@@ -41,7 +41,9 @@ export default function ContentView({ contentHash, bee }: Props): ReactElement {
   return (
     <div id={contentHash}>
       <div>
-        <small>Content address: {contentHash}</small>
+        <small>
+          {contentHash} <a href={'/#' + contentHash}>Content</a>
+        </small>
       </div>
       <div>
         {text}

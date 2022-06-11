@@ -86,6 +86,7 @@ export default function Thread({
 
   const handleSendComment = async (e: FormEvent) => {
     e.preventDefault()
+    console.log('sending as', await wallet.getAddress())
     const userComment = new UserComment(bee, contentHash)
     // todo
     const post = {
