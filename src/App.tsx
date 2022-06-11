@@ -23,6 +23,9 @@ const sanitizeContentHash = (): HexString<64> => {
   return hash as HexString<64>
 }
 
+/** max fetched posts on one level */
+const DEFAULT_MAX_THREAD_COUNT = 3
+
 function App() {
   const [contentHash, setContentHash] = useState(sanitizeContentHash())
   const [bee, setBee] = useState(new Bee('http://localhost:1633'))
@@ -80,7 +83,25 @@ function App() {
 
   const initChildrenDoneFn = (level: number, orderNo: number) => {
     console.log(`level ${level} with orderNo ${orderNo} has been inited its children!`)
+
     //TODO: fetch other threads
+
+    if (orderNo === DEFAULT_MAX_THREAD_COUNT) {
+      level++
+      orderNo = 0
+    }
+
+    if (level === DEFAULT_MAX_THREAD_COUNT && orderNo === DEFAULT_MAX_THREAD_COUNT) {
+      return
+    }
+
+    console.log('még mindig nyommom loadingThreadId', level, orderNo)
+
+    if (orderNo < DEFAULT_MAX_THREAD_COUNT) {
+      setLoadingThreadId([level, orderNo + 1])
+    } else if (level < DEFAULT_MAX_THREAD_COUNT) {
+      setLoadingThreadId([level + 1, orderNo])
+    }
   }
 
   const initDoneFn = (level: number, orderNo: number) => {
