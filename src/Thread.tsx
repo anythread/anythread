@@ -86,14 +86,22 @@ export default function Thread({
 
   const handleSendComment = async (e: FormEvent) => {
     e.preventDefault()
+    console.log('sending as', await wallet.getAddress())
     const userComment = new UserComment(bee, contentHash)
-    await userComment.writeComment(commentText, wallet)
+    // todo
+    const post = {
+      text: commentText,
+      timestamp: Date.now(),
+      contentHash: contentHash,
+    }
+    const data = JSON.stringify(post)
+    await userComment.writeComment(data, wallet)
     await graffitiFeed.broadcastEthAddresses([Utils.makeEthAddress(wallet.address.replace('0x', ''))])
   }
 
   return (
     <div>
-      <ContentView contentHash={contentHash} />
+      <ContentView contentHash={contentHash} bee={bee} />
       <div children={childrenElements}></div>
 
       <div className="write-comment">
