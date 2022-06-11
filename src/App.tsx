@@ -53,7 +53,7 @@ function App() {
     }
 
     // bee init
-    if (window.swarm && window.origin === 'null') {
+    if (window.swarm) {
       const beeUrl = window.swarm.web2Helper.fakeBeeApiAddress()
       setBee(new Bee(beeUrl))
       ;(async () => {
