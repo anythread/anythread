@@ -1,4 +1,5 @@
 import { ReactElement } from 'react'
+import Linkify from 'react-linkify'
 
 interface Props {
   timestamp: string
@@ -11,7 +12,9 @@ export default function Comment(comment: Props): ReactElement {
     <div className="anythread-comment">
       <div className="anythread-comment-name">{comment.topic}</div>
       <div className="anythread-comment-date">{comment.timestamp}</div>
-      <div className="anythread-comment-content">{comment.description}</div>
+      <div className="anythread-comment-content">
+        <Linkify>{comment.description}</Linkify>
+      </div>
     </div>
   )
 }

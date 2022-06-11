@@ -1,26 +1,41 @@
 :root {
-  --colorBackground: #1a1817;
-  --colorBackground2: #4f3640;
-  --colorBackground3: #6d4a58;
-  --colorBorder: #FFB7D3;
+  --colorBackground: #1b1216;
+  --colorBackground1: #2f2127;
+  --colorBackground2: #48313a;
+  --colorBackground3: #593c48;
+  
+  --colorBorder: #ffb7d3cd;
   --colorBorderTrans: #ffb7d373;
   --colorText: #FFB7D3;  
   --colorTextHighlight: #ffdae8;  
 
   --colorPrime: #FFB7D3;
   --colorSecond: #FFE4B8;
-  --colorSecondTrans: #ffe4b841;
+  --colorSecondTrans: #4f364077;
   --colorTerca: #B8FFE4;
   --colorTetra: #B8D3FF;
 }
 
 body { 
   background: var(--colorBackground);
-  background: rgb(2,0,36);
-  background: radial-gradient(circle, var(--colorBackground2) 0%, var(--colorBackground) 55%, var(--colorBackground) 100%);
+  background: radial-gradient(circle, var(--colorBackground) 0%, var(--colorBackground1) 55%, var(--colorBackground) 100%);
 	background-size: 800% 800%;
-	animation: gradient 35s ease infinite;
+	animation: gradient 42s ease infinite;
+
+  -moz-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  -webkit-transition: all 0.5s ease-in-ou3t;
+  -ms-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;    
+
+  box-shadow: 0px 0px 1px 10 rgb(0 0 0 / 30%);
+  transition: box-shadow 2.3s ease-in-out;
 }
+
+body *:hover { 
+  /* box-shadow: 3px 15px 50px rgb(0 0 0 / 30%); */
+}
+
 .App {
   margin: 0;
   text-align: center;
@@ -71,7 +86,7 @@ input {
 .btn:hover {
   background: var(--colorSecondTrans);
   color: var(--colorSecond);
-  background: radial-gradient(circle, var(--colorBackground) 0%, var(--colorBackground2) 55%, var(--colorBackground) 100%);
+  //background: radial-gradient(circle, var(--colorBackground) 0%, var(--colorBackground2) 55%, var(--colorBackground) 100%);
 	animation: gradient 1s ease infinite;
 }
 
@@ -101,25 +116,26 @@ input {
 .comments-section {
   border: 1px solid var(--colorBorder);
   border-radius: 15px;
-  background-size: 400% 400%;
+  background-size: 800% 800%;
   display: flexbox;
-  
-  //background: radial-gradient(circle, var(--colorBackground) 0%, var(--colorBackground2) 55%, var(--colorBackground) 100%);
-	//animation: gradient 1s ease infinite;
+  background: radial-gradient(circle, var(--colorBackground1) 0%, var(--colorBackground2) 55%, var(--colorBackground1) 100%);
+	background-size: 800% 800%;
+	animation: gradient 11s ease-in-out infinite;
 }
 .anythread-comment {
   border: 1px solid var(--colorBorderTrans);
   border-radius: 7px;
-  background-size: 100% 100%;
-  background-color: linear-gradient(circle, var(--colorBackground2) 0%, var(--colorBackground) 55%, var(--colorBackground2) 100%);
-	animation: gradientCommentItem 1s ease infinite;
   display: block;
   margin: 10px;
-  margin-top: 7px;
-  //margin-bottom: 35px;
+  margin-top: 7px; 
+  box-shadow: 3px 5px 50px 10 rgb(0 0 0 / 30%);
 }
 .anythread-comment:hover {
   background: var(--colorSecondTrans);
+  box-shadow: 3px 3px 50px rgb(0 0 0 / 30%);
+  color: var(--colorTextHighlight);
+  //transform: scale(1.001); 
+
 }
 .anythread-comment-name {
   font-size: smaller;
@@ -188,7 +204,7 @@ input {
 		background-position: 0% 50%;
 	}
 	50% {
-		background-position: 200% 50%;
+		background-position: 200% 100%;
 	}
 	100% {
 		background-position: 0% 50%;
