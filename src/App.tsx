@@ -113,6 +113,9 @@ function App() {
     <div className="App">
       <h2>AnyThread</h2>
       <div className="anythread-body">
+        <div id="user" style={{ marginBottom: 12, fontStyle: 'oblique' }}>
+          Your user address is: {wallet.address}
+        </div>
         <Thread
           bee={bee}
           contentHash={contentHash}

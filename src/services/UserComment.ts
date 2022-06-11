@@ -60,17 +60,17 @@ export default class UserComment {
     const { reference, feedIndex } = await feedReader.download()
     references.push(reference)
 
-    if (Number(feedIndex) > 0) {
-      for (let nextFeedIndex = 1; nextFeedIndex < MAX_COMMENT_FROM_USER; nextFeedIndex++) {
-        const commentIndex = (Number(feedIndex) - nextFeedIndex).toString(16).padStart(16, '0')
-        console.log('fetch user comment', commentIndex)
-        const feed = await feedReader.download({
-          index: commentIndex,
-        })
-        console.log('feedindex', nextFeedIndex, feed)
-        references.push(feed.reference)
-      }
-    }
+    // if (Number(feedIndex) > 0) {
+    //   for (let nextFeedIndex = 1; nextFeedIndex < MAX_COMMENT_FROM_USER; nextFeedIndex++) {
+    //     const commentIndex = (Number(feedIndex) - nextFeedIndex).toString(16).padStart(16, '0')
+    //     console.log('fetch user comment', commentIndex)
+    //     const feed = await feedReader.download({
+    //       index: commentIndex,
+    //     })
+    //     console.log('feedindex', nextFeedIndex, feed)
+    //     references.push(feed.reference)
+    //   }
+    // }
 
     return references
   }
