@@ -21,6 +21,8 @@ function assertComment(value: unknown): asserts value is Comment {
   }
 }
 
+const MAX_COMMENT_FROM_USER = 3
+
 export function deserialiseComment(value: Uint8Array): Comment {
   try {
     const valueString = new TextDecoder().decode(value)
@@ -49,14 +51,24 @@ export default class UserComment {
     }
   }
 
-  public async fetchCommentReference(userEthAddress: Utils.EthAddress): Promise<Reference> {
+  public async fetchCommentReference(userEthAddress: Utils.EthAddress): Promise<Reference[]> {
     const topic = this.getTopic(userEthAddress)
     const feedReader = this.bee.makeFeedReader('sequence', topic, userEthAddress)
     // TODO: read out all feeds
     // but for now just the first one
-    const { reference } = await feedReader.download()
+    const references: Reference[] = []
+    const { reference, feedIndex } = await feedReader.download()
+    references.push(reference)
 
-    return reference
+    for (let nextFeedIndex = 1; nextFeedIndex < MAX_COMMENT_FROM_USER; nextFeedIndex++) {
+      const feed = await feedReader.download({
+        index: (Number(feedIndex) - nextFeedIndex).toString(16).padStart(16, '0'),
+      })
+      console.log('feedindex', nextFeedIndex, feed)
+      references.push(feed.reference)
+    }
+
+    return references
   }
 
   /** After writing comment the user's ethereum address has to be broadcasted */

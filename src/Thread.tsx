@@ -59,21 +59,26 @@ export default function Thread({
     const ethAddresses = record.ethAddresses.map(e => hexToBytes(e)).reverse() // most recent comment is the first index
     const userComment = new UserComment(bee, contentHash)
     for (const [index, ethAddress] of Object.entries(ethAddresses)) {
-      const contentHash = await userComment.fetchCommentReference(Utils.makeEthAddress(ethAddress))
-      setChildrenElements([
-        ...childrenElements,
-        <Thread
-          key={`${level + 1}-${Number(index)}`}
-          contentHash={contentHash}
-          level={level + 1}
-          orderNo={Number(index)}
-          bee={bee}
-          initChildrenDoneFn={initChildrenDoneFn}
-          loadingThreadId={loadingThreadId}
-          initDoneFn={initDoneFn}
-          wallet={wallet}
-        />,
-      ])
+      const contentHashes = await userComment.fetchCommentReference(Utils.makeEthAddress(ethAddress))
+
+      const commentThreads: ReactElement[] = []
+      for (const [commentIndex, contentHash] of contentHashes.entries()) {
+        commentThreads.push(
+          <Thread
+            key={`${level + 1}-${Number(index)}-${commentIndex}`}
+            contentHash={contentHash}
+            level={level + 1}
+            orderNo={Number(index)}
+            bee={bee}
+            initChildrenDoneFn={initChildrenDoneFn}
+            loadingThreadId={loadingThreadId}
+            initDoneFn={initDoneFn}
+            wallet={wallet}
+          />,
+        )
+      }
+
+      setChildrenElements([...childrenElements, ...commentThreads])
     }
     initChildrenDoneFn(level, orderNo)
   }
