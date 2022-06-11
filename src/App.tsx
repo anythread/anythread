@@ -86,19 +86,21 @@ function App() {
 
     //TODO: fetch other threads
 
+    if (orderNo === DEFAULT_MAX_THREAD_COUNT) {
+      level++
+      orderNo = 0
+    }
+
     if (level === DEFAULT_MAX_THREAD_COUNT && orderNo === DEFAULT_MAX_THREAD_COUNT) {
       return
     }
 
-    if (level === DEFAULT_MAX_THREAD_COUNT) {
-      level = 0
-      orderNo++
-    }
+    console.log('még mindig nyommom loadingThreadId', level, orderNo)
 
-    if (level < DEFAULT_MAX_THREAD_COUNT) {
-      setLoadingThreadId([level + 1, orderNo])
-    } else if (orderNo < DEFAULT_MAX_THREAD_COUNT) {
+    if (orderNo < DEFAULT_MAX_THREAD_COUNT) {
       setLoadingThreadId([level, orderNo + 1])
+    } else if (level < DEFAULT_MAX_THREAD_COUNT) {
+      setLoadingThreadId([level + 1, orderNo])
     }
   }
 
