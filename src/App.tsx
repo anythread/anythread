@@ -5,7 +5,7 @@ import Thread from './Thread'
 import { Bee, Utils } from '@ethersphere/bee-js'
 import { Wallet } from 'ethers'
 import { HexString } from '@ethersphere/bee-js/dist/types/utils/hex'
-//import Router from 'react-dom-router'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 
 const { hexToBytes } = Utils
 
@@ -74,21 +74,31 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <h1>AnyThread</h1>
-      <div className="anythread-body">
-        <Thread
-          bee={bee}
-          contentHash={contentHash}
-          level={0}
-          orderNo={0}
-          loadingThreadId={loadingThreadId}
-          initChildrenDoneFn={initChildrenDoneFn}
-          initDoneFn={initDoneFn}
-          wallet={wallet}
-        />
+    <Router>
+      <div className="App">
+        <h1>AnyThread</h1>
+        <div className="anythread-body">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Thread
+                  bee={bee}
+                  contentHash={contentHash}
+                  level={0}
+                  orderNo={0}
+                  loadingThreadId={loadingThreadId}
+                  initChildrenDoneFn={initChildrenDoneFn}
+                  initDoneFn={initDoneFn}
+                  wallet={wallet}
+                />
+              }
+            />
+            <Route path="/:topic" element={null} />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </Router>
   )
 }
 
