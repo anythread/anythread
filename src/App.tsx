@@ -117,6 +117,7 @@ function App() {
           Your user address is: {wallet.address}
         </div>
         <Thread
+          key={contentHash}
           bee={bee}
           contentHash={contentHash}
           level={0}
