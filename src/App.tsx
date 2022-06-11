@@ -2,6 +2,7 @@ import './App.css'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import Thread from './Thread'
+import Home from './Home'
 import { Bee, Utils } from '@ethersphere/bee-js'
 import { Wallet } from 'ethers'
 import { HexString } from '@ethersphere/bee-js/dist/types/utils/hex'
@@ -79,8 +80,9 @@ function App() {
         <h1>AnyThread</h1>
         <div className="anythread-body">
           <Routes>
+            <Route path="/" element={<Home wallet={wallet} bee={bee} />} />
             <Route
-              path="/"
+              path="/:topic"
               element={
                 <Thread
                   bee={bee}
@@ -94,7 +96,6 @@ function App() {
                 />
               }
             />
-            <Route path="/:topic" element={null} />
           </Routes>
         </div>
       </div>

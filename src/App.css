@@ -46,7 +46,9 @@ body *:hover {
   height: 40vmin;
   pointer-events: none;
 }
-
+h1 { 
+  animation: tilt-n-move-shaking 10.2s ease infinite;
+}
 h2 {
   color: var(--colorText);
   font-size: large;
@@ -209,4 +211,12 @@ input {
 	100% {
 		background-position: 0% 50%;
 	}
+}
+
+@keyframes tilt-n-move-shaking {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(3px, 3px) rotate(2deg); }
+  50% { transform: translate(0, 0) rotate(0eg); }
+  75% { transform: translate(-3px, 3px) rotate(-2deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
 }
