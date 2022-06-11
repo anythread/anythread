@@ -51,6 +51,8 @@ export default function Thread({
   const initChildren = async () => {
     const record = await graffitiFeed.getLatestRecord()
 
+    console.log('records', record)
+
     if (!record) {
       initChildrenDoneFn(level, orderNo) //children has
 
@@ -58,26 +60,25 @@ export default function Thread({
     }
     const ethAddresses = record.ethAddresses.map(e => hexToBytes(e)).reverse() // most recent comment is the first index
     const userComment = new UserComment(bee, contentHash)
+    const commentThreads: ReactElement[] = []
     for (const [index, ethAddress] of Object.entries(ethAddresses)) {
       const contentHashes = await userComment.fetchCommentReference(Utils.makeEthAddress(ethAddress))
 
-      const commentThreads: ReactElement[] = []
-      for (const [commentIndex, contentHash] of contentHashes.entries()) {
-        commentThreads.push(
-          <Thread
-            key={`${level + 1}-${Number(index)}-${commentIndex}`}
-            contentHash={contentHash}
-            level={level + 1}
-            orderNo={Number(index)}
-            bee={bee}
-            initChildrenDoneFn={initChildrenDoneFn}
-            loadingThreadId={loadingThreadId}
-            initDoneFn={initDoneFn}
-            wallet={wallet}
-          />,
-        )
-      }
-
+      // TODO only push the freshest message
+      commentThreads.push(
+        <Thread
+          key={`${level + 1}-${Number(index)}`}
+          contentHash={contentHashes[0]}
+          level={level + 1}
+          orderNo={Number(index)}
+          bee={bee}
+          initChildrenDoneFn={initChildrenDoneFn}
+          loadingThreadId={loadingThreadId}
+          initDoneFn={initDoneFn}
+          wallet={wallet}
+        />,
+      )
+      console.log('setChildren', commentThreads)
       setChildrenElements([...childrenElements, ...commentThreads])
     }
     initChildrenDoneFn(level, orderNo)
