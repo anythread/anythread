@@ -2,6 +2,7 @@
   "name": "anythread",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "@ethersphere/bee-js": "^4.1.1",
     "@ethersphere/swarm-cid": "^0.1.0",

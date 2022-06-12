@@ -28,7 +28,7 @@ const DEFAULT_MAX_THREAD_COUNT = 3
 
 function App() {
   const [contentHash, setContentHash] = useState(sanitizeContentHash())
-  const [bee, setBee] = useState(new Bee('http://localhost:1633'))
+  const [bee, setBee] = useState(new Bee('http://188.166.20.28:1633'))
   const [loadingThreadId, setLoadingThreadId] = useState<[number, number]>([0, 0])
   const [wallet, setWallet] = useState(Wallet.createRandom())
 
