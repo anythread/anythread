@@ -55,10 +55,15 @@ export default function ContentView({ contentHash, bee, level }: Props): ReactEl
         <div className="anythread-comment-name">
           {/* <a className="clickable" onClick={handleView}>
             View
-          </a>{' '} */}
+          </a> */}
           {/* <a href={bzzLink}>BZZ link</a>{' '} */}
         </div>
-        <div className="anythread-comment-date">{new Date(Number(timestamp)).toDateString()}</div>
+        <div className="anythread-comment-date">
+          {new Date(Number(timestamp)).toDateString()} &nbsp;
+          <a className="clickable" onClick={handleView}>
+            View
+          </a>
+        </div>
         <div className="anythread-comment-address">{ethAddress}🦄</div>
         {/* <div className="anythread-comment-content">{hash}</div> */}
       </div>
