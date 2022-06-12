@@ -36,6 +36,7 @@ export default function Thread({
   const [childrenElements, setChildrenElements] = useState<ReactElement[]>([])
   const [commentText, setCommentText] = useState('')
   const [submited, settSubmited] = useState(false)
+  const [loading, settLoading] = useState(true)
 
   useEffect(() => {
     initDoneFn(level, orderNo)
@@ -59,6 +60,7 @@ export default function Thread({
 
       return
     }
+    settLoading(true)
     const ethAddresses = record.ethAddresses.map(e => hexToBytes(e)).reverse() // most recent comment is the first index
     const userComment = new UserComment(bee, contentHash)
     const commentThreads: ReactElement[] = []
@@ -83,6 +85,7 @@ export default function Thread({
       setChildrenElements([...childrenElements, ...commentThreads])
     }
     initChildrenDoneFn(level, orderNo)
+    settLoading(false)
   }
 
   const handleSendComment = async (e: FormEvent) => {
@@ -121,6 +124,7 @@ export default function Thread({
 
   return (
     <div>
+      {loading ? <div className="loader">Loading...</div> : null}
       <ContentView contentHash={contentHash} bee={bee} level={level} />
 
       <div children={childrenElements}></div>

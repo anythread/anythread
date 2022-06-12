@@ -109,9 +109,15 @@ function App() {
     //TODO: register threads for init their children later
   }
 
+  const goHome = () => {
+    window.location.hash = ''
+  }
+
   return (
     <div className="App">
-      <h1>AnyThread</h1>
+      <h1 onClick={goHome} style={{ cursor: 'pointer' }}>
+        AnyThread
+      </h1>
       <div className="anythread-body">
         <div id="user" style={{ marginBottom: 12, fontStyle: 'oblique' }}>
           Your user address is: {wallet.address}
@@ -139,6 +145,8 @@ function App() {
           Swarm Extension
         </a>{' '}
         after the gateway is disfunctional for traceless communication
+        <br />
+        <a href="https://github.com/anythread/anythread">Source</a>
       </div>
     </div>
   )
