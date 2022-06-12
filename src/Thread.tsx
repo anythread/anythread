@@ -54,7 +54,7 @@ export default function Thread({
   const initChildren = async () => {
     const record = await graffitiFeed.getLatestRecord()
 
-    console.log('records', record)
+    console.log('record', record)
 
     if (!record) {
       initChildrenDoneFn(level, orderNo) //children has
