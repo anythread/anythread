@@ -1,5 +1,7 @@
 # What is AnyThread?
 
+[DEMO](http://188.166.20.28:1633/bzz/1dec3b89cef96591fc0bd1869a7322751f7aaa9374a08a9b9e827a1cb2affa29/#08cad572d929c11813c0ad8801da702a83f39df969990497c28bdd16094e93a0)
+
 ## Inspiration
 
 The current web2 forums for discussion hold data in siloses, under control of predominantly large providers. The data is under their control to be removed, sometimes lost for the authors alltogether. You cannot migrate the data to another provider, hence you are locked in to an ecosystem. On the other hand, data that seldom accessed takes up storage, taking up energy and limited resources.
