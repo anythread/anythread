@@ -1,3 +1,23 @@
+# What is AnyThread?
+
+## Inspiration
+
+The current web2 forums for discussion hold data in siloses, under control of predominantly large providers. The data is under their control to be removed, sometimes lost for the authors alltogether. You cannot migrate the data to another provider, hence you are locked in to an ecosystem. On the other hand, data that seldom accessed takes up storage, taking up energy and limited resources.
+
+As decentralized technologies evolve, that does not have to be the case. AnyThread is a proof of the concept of holding the communication in decentralized storage, making it always available to the authors and other users.
+
+## What it does
+
+AnyThread allows a thread of comments to emerge on a specific topic, with anyone being allowed to comment on it; or comment on a comment - and so on. It does allow this to be done pseudononimously, as the comments are tied to a keys of a user.
+
+## What tech is used
+
+AnyThread is using Swarm decentralized storage for the topics and comments to them. Swarm acts as immutable storage for the comment threads. The nature of storage allows for garbage collection of non-popular content after a period of time, making this kind of solution also more sustainable in the long run. 
+
+## What's next for AnyThread
+
+The future is bright for AnyThread as a technology. Communities can be built around the ideas, with some extra business logic added on top and allowing for filtering based on tastes, friends, etc. As anyone could swith the "frontend" providers at any time, adoption should not be stimyed by fear of lockin, and network effects on the scale never seen before can be achieved.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
