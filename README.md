@@ -1,6 +1,6 @@
 # What is AnyThread?
 
-[DEMO](https://bah5acgza4yume6dxwny2v7ck2ktltnazuq2yd6qpdvwij3xhx6vaj4htot2a.bzz.link)
+[DEMO](https://anythread.bzz.link)
 
 ## Inspiration
 
