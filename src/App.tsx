@@ -128,6 +128,18 @@ function App() {
           wallet={wallet}
         />
       </div>
+      <div>
+        <br />
+        <br />
+        <br />
+        You are using now a gateway to reach P2P storage.
+        <br />
+        Please run <a href="https://docs.ethswarm.org/docs/installation/quick-start">Bee client</a> and{' '}
+        <a href="https://chrome.google.com/webstore/detail/ethereum-swarm-extension/afpgelfcknfbbfnipnomfdbbnbbemnia">
+          Swarm Extension
+        </a>{' '}
+        after the gateway is disfunctional for traceless communication
+      </div>
     </div>
   )
 }
