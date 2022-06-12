@@ -1,6 +1,6 @@
 # What is AnyThread?
 
-[DEMO](http://188.166.20.28:1633/bzz/1dec3b89cef96591fc0bd1869a7322751f7aaa9374a08a9b9e827a1cb2affa29/#08cad572d929c11813c0ad8801da702a83f39df969990497c28bdd16094e93a0)
+[DEMO](http://anythread:1633/bzz/1dec3b89cef96591fc0bd1869a7322751f7aaa9374a08a9b9e827a1cb2affa29/)
 
 ## Inspiration
 
