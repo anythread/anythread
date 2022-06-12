@@ -76,12 +76,14 @@ export default class UserComment {
   }
 
   /** After writing comment the user's ethereum address has to be broadcasted */
-  public async writeComment(message: string, wallet: Wallet) {
+  public async writeComment(message: string, wallet: Wallet): Promise<Reference> {
     const ethAddressBytes = Uint8Array.from(hexToBytes(wallet.address.replace('0x', ''))) as Utils.Bytes<20>
     const topic = this.getTopic(ethAddressBytes)
     const feedWriter = this.bee.makeFeedWriter('sequence', topic, wallet.privateKey.replace('0x', ''))
     const commentUpload = await this.bee.uploadData(STAMP_ID, serializeComment({ message }))
     await feedWriter.upload(STAMP_ID, commentUpload.reference)
+
+    return commentUpload.reference
   }
 
   private getTopic(userEthAddress: Utils.EthAddress) {

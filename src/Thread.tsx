@@ -98,9 +98,25 @@ export default function Thread({
     }
     settSubmited(true)
     const data = JSON.stringify(post)
-    await userComment.writeComment(data, wallet)
     await graffitiFeed.broadcastEthAddresses([Utils.makeEthAddress(wallet.address.replace('0x', ''))])
+    const commentRef = await userComment.writeComment(data, wallet)
+    // push comment
+    const commentThreads = [
+      <Thread
+        key={`${level + 1}-${childrenElements.length}`}
+        contentHash={commentRef}
+        level={level + 1}
+        orderNo={childrenElements.length}
+        bee={bee}
+        initChildrenDoneFn={initChildrenDoneFn}
+        loadingThreadId={loadingThreadId}
+        initDoneFn={initDoneFn}
+        wallet={wallet}
+      />,
+    ]
+    setChildrenElements([...childrenElements, ...commentThreads])
     settSubmited(false)
+    setCommentText('')
   }
 
   return (
