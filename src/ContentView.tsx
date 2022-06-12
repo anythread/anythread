@@ -48,25 +48,29 @@ export default function ContentView({ contentHash, bee, level }: Props): ReactEl
 
   return (
     <div id={contentHash} className="anythread-comment">
-      <div>
-        <h2 onClick={handleView} style={{ cursor: 'pointer' }}>
-          {text}
-        </h2>
-        <div className="anythread-comment-name">
-          {/* <a className="clickable" onClick={handleView}>
+      {ethAddress === '0x' ? (
+        <h2>ROOTOPIC</h2>
+      ) : (
+        <div>
+          <h2 onClick={handleView} style={{ cursor: 'pointer' }}>
+            {text}
+          </h2>
+          <div className="anythread-comment-name">
+            {/* <a className="clickable" onClick={handleView}>
             View
           </a> */}
-          {/* <a href={bzzLink}>BZZ link</a>{' '} */}
+            {/* <a href={bzzLink}>BZZ link</a>{' '} */}
+          </div>
+          <div className="anythread-comment-date">
+            {new Date(Number(timestamp)).toDateString()} &nbsp;
+            <a className="clickable" onClick={handleView}>
+              View
+            </a>
+          </div>
+          <div className="anythread-comment-address">{ethAddress}🦄</div>
+          {/* <div className="anythread-comment-content">{hash}</div> */}
         </div>
-        <div className="anythread-comment-date">
-          {new Date(Number(timestamp)).toDateString()} &nbsp;
-          <a className="clickable" onClick={handleView}>
-            View
-          </a>
-        </div>
-        <div className="anythread-comment-address">{ethAddress}🦄</div>
-        {/* <div className="anythread-comment-content">{hash}</div> */}
-      </div>
+      )}
     </div>
   )
 }
