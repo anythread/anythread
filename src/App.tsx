@@ -1,5 +1,5 @@
 import './App.css'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react'
 import Thread from './Thread'
 import { Bee, Utils } from '@ethersphere/bee-js'
@@ -26,10 +26,13 @@ const sanitizeContentHash = (): HexString<64> => {
 /** max fetched posts on one level */
 const DEFAULT_MAX_THREAD_COUNT = 3
 const HAS_SWARM_EXTENSION = Boolean(window.swarm)
+const BEE_API_URL = HAS_SWARM_EXTENSION
+  ? window.swarm.web2Helper.fakeBeeApiAddress()
+  : 'https://anythread.xyz/'
 
 function App() {
   const [contentHash, setContentHash] = useState(sanitizeContentHash())
-  const [bee, setBee] = useState(new Bee('https://anythread.xyz/'))
+  const [bee, setBee] = useState(new Bee(BEE_API_URL))
   const [loadingThreadId, setLoadingThreadId] = useState<[number, number]>([0, 0])
   const [wallet, setWallet] = useState(Wallet.createRandom())
 
@@ -54,9 +57,7 @@ function App() {
     }
 
     // bee init
-    if (window.swarm) {
-      const beeUrl = window.swarm.web2Helper.fakeBeeApiAddress()
-      setBee(new Bee(beeUrl))
+    if (HAS_SWARM_EXTENSION) {
       ;(async () => {
         //private key handling
         const windowPrivKey = await window.swarm.localStorage.getItem('private_key')
@@ -69,7 +70,7 @@ function App() {
         }
       })()
     } else {
-      // key init
+      // init key
       const windowPrivKey = window.localStorage.getItem('private_key')
 
       if (windowPrivKey) {

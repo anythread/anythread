@@ -46,6 +46,7 @@ export default function Thread({
   useEffect(() => {
     if (loadingThreadId[0] === level && loadingThreadId[1] === orderNo) {
       // init Children Thread elements
+      console.log('start to load children threads on', loadingThreadId, bee.url)
       initChildren()
     }
     // if -1, -1, then set loading more and comment section
