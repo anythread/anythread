@@ -2,7 +2,7 @@ import { Bee, Utils, Reference } from '@ethersphere/bee-js'
 import { Bytes } from 'mantaray-js'
 import { getEthereumAddress, HexEthAddress, STAMP_ID } from '../Utility'
 
-interface DbRecord {
+export interface DbRecord {
   ethAddresses: HexEthAddress[]
 }
 

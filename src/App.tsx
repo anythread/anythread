@@ -5,6 +5,7 @@ import Thread from './Thread'
 import { Bee, Utils } from '@ethersphere/bee-js'
 import { Wallet } from 'ethers'
 import { HexString } from '@ethersphere/bee-js/dist/types/utils/hex'
+import ReactTooltip from 'react-tooltip'
 
 const { hexToBytes } = Utils
 
@@ -31,6 +32,8 @@ function App() {
   const [bee, setBee] = useState(new Bee('https://anythread.xyz/'))
   const [loadingThreadId, setLoadingThreadId] = useState<[number, number]>([0, 0])
   const [wallet, setWallet] = useState(Wallet.createRandom())
+  const [status, setStatus] = useState('')
+  const [loading, setLoading] = useState(true)
 
   // constructor
   useEffect(() => {
@@ -38,6 +41,7 @@ function App() {
       console.log('hashchange1', window.location.hash)
       const hash = sanitizeContentHash()
       setContentHash(hash)
+      onNewStatus(`change detected ${hash}`)
     }
     window.addEventListener('hashchange', valami)
 
@@ -83,6 +87,7 @@ function App() {
 
   const initChildrenDoneFn = (level: number, orderNo: number) => {
     console.log(`level ${level} with orderNo ${orderNo} has been inited its children!`)
+    onNewStatus(`start ${orderNo}`)
 
     //TODO: fetch other threads
 
@@ -105,19 +110,26 @@ function App() {
   }
 
   const initDoneFn = (level: number, orderNo: number) => {
-    console.log(`level ${level} with orderNo ${orderNo} has been inited!`)
+    console.log(`level ${level} with orderNo ${orderNo} has been done!`)
     //TODO: register threads for init their children later
+    onNewStatus(`done ${orderNo}`)
   }
 
   const goHome = () => {
     window.location.href = window.location.href.split('#')[0]
   }
+  const onNewStatus = (newStatus: string) => {
+    setStatus(newStatus)
+  }
 
   return (
     <div className="App">
-      <h1 onClick={goHome} style={{ cursor: 'pointer' }}>
+      <ReactTooltip effect="solid" />
+      <h1 onClick={goHome} style={{ cursor: 'pointer' }} data-tip="Home">
         AnyThread
       </h1>
+      {/* {loading ? <div className="loader anythread-comment-name"></div> : null} */}
+
       <div className="anythread-body">
         <div id="user" style={{ marginBottom: 12, fontStyle: 'oblique' }}>
           Your user address is: {wallet.address}
@@ -132,12 +144,16 @@ function App() {
           initChildrenDoneFn={initChildrenDoneFn}
           initDoneFn={initDoneFn}
           wallet={wallet}
+          onStatusChange={onNewStatus}
         />
       </div>
       <div>
         <br />
         <br />
         <br />
+        <div className="anythread-status" data-tip="status">
+          {status}
+        </div>
         You are using now a gateway to reach P2P storage.
         <br />
         Please run <a href="https://docs.ethswarm.org/docs/installation/quick-start">Bee client</a> and{' '}

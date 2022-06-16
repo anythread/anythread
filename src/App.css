@@ -166,7 +166,11 @@ input {
   //transform: scale(1.001); 
 
 }
-
+.anythread-comment-title {
+  max-width: 100%;
+  word-break: break-all;
+  overflow-wrap: break-word;
+}
 .anythread-comment-name {
   font-size: smaller;
   position: absolute;
@@ -193,6 +197,10 @@ input {
   text-justify: right;
 }
 
+.anythread-status {
+  font-size: smaller;
+  text-justify: center;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -268,12 +276,12 @@ input {
 .loader,
 .loader:after {
   border-radius: 35%;
-  width: 1em;
-  height: 1em;
+  width: 2px;
+  height: 2px;
 }
 .loader {
-  margin: 60px auto;
-  font-size: 10px;
+  margin: 2px auto;
+  font-size: 2px;
   position: relative;
   text-indent: -9999em;
   border-top: 1.1em solid rgba(255, 196, 86, 0.775);
