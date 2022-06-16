@@ -25,6 +25,7 @@ const sanitizeContentHash = (): HexString<64> => {
 
 /** max fetched posts on one level */
 const DEFAULT_MAX_THREAD_COUNT = 3
+const HAS_SWARM_EXTENSION = Boolean(window.swarm)
 
 function App() {
   const [contentHash, setContentHash] = useState(sanitizeContentHash())
@@ -134,17 +135,16 @@ function App() {
           wallet={wallet}
         />
       </div>
-      <div>
-        <br />
-        <br />
-        <br />
-        You are using now a gateway to reach P2P storage.
-        <br />
-        Please run <a href="https://docs.ethswarm.org/docs/installation/quick-start">Bee client</a> and{' '}
-        <a href="https://chrome.google.com/webstore/detail/ethereum-swarm-extension/afpgelfcknfbbfnipnomfdbbnbbemnia">
-          Swarm Extension
-        </a>{' '}
-        after the gateway is disfunctional for traceless communication
+      <div style={{ paddingTop: 24 }}>
+        <div hidden={HAS_SWARM_EXTENSION}>
+          You are using now a gateway to reach P2P storage.
+          <br />
+          Please run <a href="https://docs.ethswarm.org/docs/installation/quick-start">Bee client</a> and{' '}
+          <a href="https://chrome.google.com/webstore/detail/ethereum-swarm-extension/afpgelfcknfbbfnipnomfdbbnbbemnia">
+            Swarm Extension
+          </a>{' '}
+          after the gateway is disfunctional for traceless communication
+        </div>
         <br />
         <a href="https://github.com/anythread/anythread">Source</a>
       </div>
