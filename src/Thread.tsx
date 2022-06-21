@@ -1,6 +1,6 @@
-import { Bee, Utils } from '@ethersphere/bee-js'
+import { Bee, Reference, Utils } from '@ethersphere/bee-js'
 import { Wallet } from 'ethers'
-import { FormEvent, ReactElement, useState } from 'react'
+import { FormEvent, InputHTMLAttributes, ReactElement, useState } from 'react'
 import { useEffect } from 'react'
 import ContentView from './ContentView'
 import GraffitiFeed from './services/GraffitiFeed'
@@ -29,13 +29,14 @@ export default function Thread({
   loadingThreadId,
   bee,
   initChildrenDoneFn,
-  initDoneFn,
+  initDoneFn, 
   wallet,
 }: Props) {
   const graffitiFeed = new GraffitiFeed(bee, Utils.hexToBytes(contentHash), VERSION_HASH)
   const [childrenElements, setChildrenElements] = useState<ReactElement[]>([])
   const [commentText, setCommentText] = useState('')
   const [submited, settSubmited] = useState(false)
+  const [anyFile,  setAnyFile] = useState<FileList | null>(null)
   const [loading, settLoading] = useState(true)
 
   useEffect(() => {
@@ -88,6 +89,12 @@ export default function Thread({
     initChildrenDoneFn(level, orderNo)
   }
 
+  const uploadAnything = (): Promise<Reference> => {
+    if(anyFile === null) return
+
+    bee.uploadCollection( anyFile)
+  })
+
   const handleSendComment = async (e: FormEvent) => {
     e.preventDefault()
     console.log('sending as', await wallet.getAddress())
@@ -95,6 +102,7 @@ export default function Thread({
     // todo
     const post = {
       text: commentText,
+      attachmentReference: file,
       timestamp: Date.now(),
       contentHash: contentHash,
       ethAddress: await wallet.getAddress(),
@@ -132,6 +140,7 @@ export default function Thread({
         <div className="write-comment">
           <form onSubmit={handleSendComment}>
             <input type="text" value={commentText} onChange={e => setCommentText(e.target.value)} />
+            <input type="file" id="upload-directory" multiple onChange={e => setAnyFile(e.target.files)  }></input>
             {submited ? (
               <input className="btn" type="submit" disabled value="Wait..." />
             ) : (
