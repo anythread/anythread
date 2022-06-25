@@ -31,6 +31,8 @@ export default class AnyUpload {
       return true
     }
 
+    console.log('filesize', files[0].size, MAX_GATEWAY_SIZE)
+
     if (files[0].size > MAX_GATEWAY_SIZE && !HAS_SWARM_EXTENSION) {
       return false
     }

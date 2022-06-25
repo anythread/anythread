@@ -103,11 +103,12 @@ export default function Thread({
 
     if (!files) return
 
-    if (!HAS_SWARM_EXTENSION) setGwUploadExceedesLimit(anyUpload.checkAnythingSize(files))
+    if (!HAS_SWARM_EXTENSION) setGwUploadExceedesLimit(!anyUpload.checkAnythingSize(files))
   }
 
   const handleSendComment = async (e: FormEvent) => {
     e.preventDefault()
+    settSubmited(true)
     console.log('sending as', await wallet.getAddress())
     const userComment = new UserComment(bee, contentHash)
     // crate post json data
@@ -127,7 +128,6 @@ export default function Thread({
         blobType: blobType,
       }
     }
-    settSubmited(true)
     await graffitiFeed.broadcastEthAddresses([Utils.makeEthAddress(wallet.address.replace('0x', ''))])
     const commentRef = await userComment.writeComment(comment, wallet)
     // push comment
