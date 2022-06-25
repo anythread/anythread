@@ -27,7 +27,7 @@ function renderAttachment(blobType: BlobType | null, contentAddress: Reference |
     case 'image':
       return (
         <a href={bzzLink}>
-          <img is="swarm-img" style={{ maxWidth: '80%' }} src={bzzLink}></img>
+          <img is="swarm-img" style={{ maxWidth: '80%', maxHeight: 3000 }} src={bzzLink}></img>
         </a>
       )
     default:
