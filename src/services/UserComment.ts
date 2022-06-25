@@ -1,18 +1,32 @@
-import { Bee, Reference, Utils } from '@ethersphere/bee-js'
+import { Address, Bee, Reference, UploadResultWithCid, Utils } from '@ethersphere/bee-js'
 import { isSwarmCid, STAMP_ID } from '../Utility'
 import * as SwarmCid from '@ethersphere/swarm-cid'
 import { Utils as MantarayUtils } from 'mantaray-js'
 import { Wallet } from 'ethers'
+import { PrefixedAddress } from '../types'
 
 const { hexToBytes } = Utils
 
 const { keccak256Hash } = MantarayUtils
-interface Comment {
-  message: string
+export interface Comment {
+  text: string
+  timestamp: number
+  /** content hash to which the message originally sent */
+  contentHash: Reference
+  ethAddress: PrefixedAddress
+  attachment?: {
+    reference: Reference
+    blobType: string
+  }
 }
 
 function isComment(value: unknown): value is Comment {
-  return value !== null && typeof value === 'object' && Object.keys(value)[0] === 'message'
+  return (
+    value !== null &&
+    typeof value === 'object' &&
+    Object.keys(value).includes('text') &&
+    Object.keys(value).includes('ethAddress')
+  )
 }
 
 function assertComment(value: unknown): asserts value is Comment {
@@ -21,25 +35,33 @@ function assertComment(value: unknown): asserts value is Comment {
   }
 }
 
-const MAX_COMMENT_FROM_USER = 3
-
 export function deserialiseComment(value: Uint8Array): Comment {
   try {
     const valueString = new TextDecoder().decode(value)
     const valueObject = JSON.parse(valueString)
-    assertComment(valueObject)
+    console.log('message', valueObject)
+    let message = valueObject.message
 
-    return valueObject
+    // TODO remove it later, just it was stringified 2x
+    if (typeof message === 'string') message = JSON.parse(message)
+
+    if (!message) throw Error()
+
+    assertComment(message)
+
+    return message
   } catch (e) {
-    throw new Error('The comment is not a valid user comment on deserialization')
+    throw new Error(
+      `The comment is not a valid user comment on deserialization: ${new TextDecoder().decode(value)}`,
+    )
   }
 }
 
 function serializeComment(message: Comment): Uint8Array {
-  return new TextEncoder().encode(JSON.stringify(message))
+  return new TextEncoder().encode(JSON.stringify({ message }))
 }
 
-export default class UserComment {
+export class UserComment {
   private contentHashBytes: Uint8Array
   constructor(private bee: Bee, contentHash: string) {
     if (Utils.isHexString(contentHash)) {
@@ -76,11 +98,11 @@ export default class UserComment {
   }
 
   /** After writing comment the user's ethereum address has to be broadcasted */
-  public async writeComment(message: string, wallet: Wallet): Promise<Reference> {
+  public async writeComment(comment: Comment, wallet: Wallet): Promise<Reference> {
     const ethAddressBytes = Uint8Array.from(hexToBytes(wallet.address.replace('0x', ''))) as Utils.Bytes<20>
     const topic = this.getTopic(ethAddressBytes)
     const feedWriter = this.bee.makeFeedWriter('sequence', topic, wallet.privateKey.replace('0x', ''))
-    const commentUpload = await this.bee.uploadData(STAMP_ID, serializeComment({ message }))
+    const commentUpload = await this.bee.uploadData(STAMP_ID, serializeComment(comment))
     await feedWriter.upload(STAMP_ID, commentUpload.reference)
 
     return commentUpload.reference

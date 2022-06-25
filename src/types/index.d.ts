@@ -10,3 +10,5 @@ declare global {
     }
   }
 }
+
+export type PrefixedAddress = string & { __tag__?: 'PrefixedAddress' }

@@ -2,7 +2,9 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { ReactElement } from 'react'
 import * as SwarmCid from '@ethersphere/swarm-cid'
-import { Bee, Utils } from '@ethersphere/bee-js'
+import { Bee, Reference } from '@ethersphere/bee-js'
+import { deserialiseComment } from './services/UserComment'
+import { BlobType } from './Utility'
 
 interface Props {
   contentHash: string
@@ -11,33 +13,48 @@ interface Props {
 }
 
 function getBzzLink(contentHash: string): string {
-  try {
-    const cid = SwarmCid.encodeReference(contentHash, SwarmCid.ReferenceType.FEED)
+  const cid = SwarmCid.encodeReference(contentHash, SwarmCid.ReferenceType.FEED)
 
-    return `https://${cid}.bzz.link`
-  } catch (e) {
-    return `https://${contentHash}.bzz.link`
+  return `https://${cid}.bzz.link`
+}
+
+function renderAttachment(blobType: BlobType | null, contentAddress: Reference | null): ReactElement {
+  if (blobType === null || contentAddress === null) return <></>
+  const contentType = blobType.split('/')[0]
+  const bzzLink = getBzzLink(contentAddress)
+
+  switch (contentType) {
+    case 'image':
+      return (
+        <a href={bzzLink}>
+          <img is="swarm-img" style={{ maxWidth: '80%' }} src={bzzLink}></img>
+        </a>
+      )
+    default:
+      return <a href={bzzLink}>Open Attachement</a>
   }
 }
 
 export default function ContentView({ contentHash, bee, level }: Props): ReactElement {
-  const [bzzLink, setBzzLink] = useState('')
   const [text, setText] = useState('')
-  const [timestamp, setTimestamp] = useState('')
-  const [hash, setHash] = useState('')
+  const [timestamp, setTimestamp] = useState(-416202389)
+  const [parentHash, setParentHash] = useState('')
   const [ethAddress, setEthAddress] = useState('0x')
+  const [attachmentBlobType, setAttachmentBlobType] = useState<null | BlobType>(null)
+  const [attachmentReference, setAttachmentReference] = useState<null | Reference>(null)
 
   useEffect(() => {
-    setBzzLink(getBzzLink(contentHash))
     bee.downloadData(contentHash).then(data => {
-      const jsonString = new TextDecoder().decode(data)
-      const post = JSON.parse(JSON.parse(jsonString).message) // this is bad as its double encoded, content at contentHash is 2x json
+      const post = deserialiseComment(data)
 
       setText(post.text)
       setTimestamp(post.timestamp)
-      setHash(post.contentHash)
+      setParentHash(post.contentHash)
       setEthAddress(post.ethAddress)
-      console.log('data', data, jsonString, post, timestamp)
+      setAttachmentBlobType(post.attachment?.blobType || null)
+      setAttachmentReference(post.attachment?.reference || null)
+
+      console.log('data', post)
     })
     console.log('contentHash', contentHash)
   }, [contentHash])
@@ -55,12 +72,7 @@ export default function ContentView({ contentHash, bee, level }: Props): ReactEl
           <h2 onClick={handleView} style={{ cursor: 'pointer' }}>
             {text}
           </h2>
-          <div className="anythread-comment-name">
-            {/* <a className="clickable" onClick={handleView}>
-            View
-          </a> */}
-            {/* <a href={bzzLink}>BZZ link</a>{' '} */}
-          </div>
+          <div hidden={!attachmentBlobType}>{renderAttachment(attachmentBlobType, attachmentReference)}</div>
           <div className="anythread-comment-date">
             {new Date(Number(timestamp)).toDateString()} &nbsp;
             <a className="clickable" onClick={handleView}>

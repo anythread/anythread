@@ -5,6 +5,7 @@ import Thread from './Thread'
 import { Bee, Utils } from '@ethersphere/bee-js'
 import { Wallet } from 'ethers'
 import { HexString } from '@ethersphere/bee-js/dist/types/utils/hex'
+import { HAS_SWARM_EXTENSION } from './Utility'
 
 const { hexToBytes } = Utils
 
@@ -25,7 +26,6 @@ const sanitizeContentHash = (): HexString<64> => {
 
 /** max fetched posts on one level */
 const DEFAULT_MAX_THREAD_COUNT = 3
-const HAS_SWARM_EXTENSION = Boolean(window.swarm)
 const BEE_API_URL = HAS_SWARM_EXTENSION
   ? window.swarm.web2Helper.fakeBeeApiAddress()
   : 'https://anythread.xyz/'

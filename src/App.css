@@ -68,7 +68,7 @@ div {
   margin: 0.1vmax;
 }
 
-input {
+input[type=text], input[type=submit] {
   background-color: var(--colorBackground2);
   border-radius: 15px;
   border: 1px solid var(--colorBorder);
@@ -94,14 +94,14 @@ input {
 .btn:hover {
   background: var(--colorSecondTrans);
   color: var(--colorSecond);
-  //background: radial-gradient(circle, var(--colorBackground) 0%, var(--colorBackground2) 55%, var(--colorBackground) 100%);
+  /* background: radial-gradient(circle, var(--colorBackground) 0%, var(--colorBackground2) 55%, var(--colorBackground) 100%); */
 	animation: gradient 1s ease infinite;
 }
 
 .btn:disabled {
   background: var(--colorBackground);
   color: var(--colorBackground3);
-  //background: radial-gradient(circle, var(--colorBackground) 0%, var(--colorBackground2) 55%, var(--colorBackground) 100%);
+  /* background: radial-gradient(circle, var(--colorBackground) 0%, var(--colorBackground2) 55%, var(--colorBackground) 100%); */
 	animation: gradient 1s ease infinite;
 }
 
@@ -163,7 +163,7 @@ input {
   background: var(--colorSecondTrans);
   box-shadow: 3px 3px 50px rgb(0 0 0 / 30%);
   color: var(--colorTextHighlight);
-  //transform: scale(1.001); 
+  /* transform: scale(1.001); */
 
 }
 
@@ -176,7 +176,7 @@ input {
 }
 .anythread-comment-date {
   font-size: smaller;
-  //position: absolute;
+  /* position: absolute; */
   right: 25px;
   text-justify: right;
 }
@@ -188,8 +188,8 @@ input {
 
 .anythread-comment-address {
   font-size: smaller;
-  //position: absolute;
-  //top: 25px;
+  /* position: absolute;
+  top: 25px; */
   text-justify: right;
 }
 

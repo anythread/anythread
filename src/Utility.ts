@@ -10,6 +10,8 @@ export const VERSION_HASH = MantarayUtils.keccak256Hash('633chan:v1')
 /** Handled by the gateway proxy or swarm-extension */
 export const STAMP_ID = '742fee3e9d4cebfe7aa6f6fca1ff7669a52403a9d294e9519b1be72b2ffa9527'
 
+export const HAS_SWARM_EXTENSION = Boolean(window.swarm)
+
 export type HexEthAddress = BeeJsUtils.HexString<40>
 
 export function isSwarmCid(input: string): boolean {
@@ -33,4 +35,14 @@ export function getEthereumAddress(privateKey: Bytes<32>): string {
   const wallet = new Wallet(privateKey)
 
   return wallet.address
+}
+
+export type BlobType = string | 'folder'
+
+export function getBlobType(files: FileList): BlobType {
+  if (files.length > 1) return 'folder'
+
+  if (files.length === 0) throw Error(`no file has been added`)
+
+  return files[0].type
 }
