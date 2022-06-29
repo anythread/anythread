@@ -4,6 +4,7 @@ import { ReactElement } from 'react'
 import * as SwarmCid from '@ethersphere/swarm-cid'
 import { Bee, Utils } from '@ethersphere/bee-js'
 import ReactTooltip from 'react-tooltip'
+import Blockies from 'react-blockies'
 
 interface Props {
   contentHash: string
@@ -28,6 +29,15 @@ export default function ContentView({ contentHash, bee, level }: Props): ReactEl
   const [parentHash, setParentHash] = useState('')
   const [ethAddress, setEthAddress] = useState('0x')
   const [loading, setLoading] = useState(true)
+  const [isHovering, setIsHovering] = useState(false)
+
+  const handleMouseOver = () => {
+    setIsHovering(true)
+  }
+
+  const handleMouseOut = () => {
+    setIsHovering(false)
+  }
 
   useEffect(() => {
     setBzzLink(getBzzLink(contentHash))
@@ -63,6 +73,7 @@ export default function ContentView({ contentHash, bee, level }: Props): ReactEl
         <div>
           {/* {parentHash} */}
           {loading ? <div className="loader"></div> : null}
+
           <h2
             onClick={handleView}
             style={{ cursor: 'pointer' }}
@@ -91,11 +102,30 @@ export default function ContentView({ contentHash, bee, level }: Props): ReactEl
 
           <div className="anythread-comment-date">
             {new Date(Number(timestamp)).toDateString()} &nbsp;
-            <span data-tip={'sender ' + ethAddress}>🦄</span>&nbsp;
-            <a className="clickable" onClick={handleView}>
+            <span data-tip={'sender ' + ethAddress} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+              🦄
+            </span>
+            &nbsp;
+            {/* <a className="clickable" onClick={handleView}>
               View
-            </a>
+            </a> */}
           </div>
+
+          {/* {isHovering && (
+            <div>
+              <Blockies
+                seed={ethAddress}
+                size={16}
+                scale={3}
+                color="#ffb7d373"
+                bgColor="#48313a"
+                spotColor="#FFB7D3"
+                className="identicon"
+                data-tip={'sender ' + ethAddress}
+                z-index={100}
+              />
+            </div>
+          )} */}
 
           {/* <div className="anythread-comment-address" data-tip={'sender ' + ethAddress}>
             🦄

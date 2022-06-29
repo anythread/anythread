@@ -112,6 +112,12 @@ input {
 	animation: gradient 15s ease infinite;
 }
 
+.identicon {
+  float: right;
+  position: relative;
+  top: -60px;
+}
+
 /* Green */
 .success {
   border-color: #04AA6D;
