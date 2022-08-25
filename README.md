@@ -20,6 +20,10 @@ AnyThread is using Swarm decentralized storage for the topics and comments to th
 
 The future is bright for AnyThread as a technology. Communities can be built around the ideas, with some extra business logic added on top and allowing for filtering based on tastes, friends, etc. As anyone could swith the "frontend" providers at any time, adoption should not be stimyed by fear of lockin, and network effects on the scale never seen before can be achieved.
 
+## License
+
+TBD
+
 ## Short video of using [AnyThread](https://drive.google.com/file/d/1_6CwRKWQ5HPuGC7GUdI4N2fRFIMUNAe9/view?usp=sharing) 
 
 ![That photo oof using](./screen.png)
