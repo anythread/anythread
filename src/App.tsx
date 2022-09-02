@@ -2,6 +2,7 @@ import './App.css'
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import Thread from './Thread'
+import Embed from './Embed'
 import { Bee, Utils } from '@ethersphere/bee-js'
 import { Wallet } from 'ethers'
 import { HexString } from '@ethersphere/bee-js/dist/types/utils/hex'
@@ -26,15 +27,15 @@ const sanitizeContentHash = (): HexString<64> => {
 
 /** max fetched posts on one level */
 const DEFAULT_MAX_THREAD_COUNT = 3
-const BEE_API_URL = HAS_SWARM_EXTENSION
-  ? window.swarm.web2Helper.fakeBeeApiAddress()
-  : 'https://anythread.xyz/'
+const BEE_API_URL = HAS_SWARM_EXTENSION ? window.swarm.web2Helper.fakeBeeApiAddress() : 'localhost:1633/'
 
 function App() {
   const [contentHash, setContentHash] = useState(sanitizeContentHash())
   const [bee, setBee] = useState(new Bee(BEE_API_URL))
   const [loadingThreadId, setLoadingThreadId] = useState<[number, number]>([0, 0])
   const [wallet, setWallet] = useState(Wallet.createRandom())
+  const [locationText, setLocationText] = useState('')
+  const [embedUrl, setEmbedUrl] = useState('')
 
   // constructor
   useEffect(() => {
@@ -115,11 +116,49 @@ function App() {
     window.location.href = window.location.href.split('#')[0]
   }
 
+  const handleNavigation = () => {
+    const locationLength = locationText.length
+
+    console.log('ismét nyommom loadingLoc', locationText)
+
+    if (Utils.isHexString(locationText)) {
+      window.location.hash = locationText
+    } else {
+      window.location.hash = Utils.bytesToHex(Utils.keccak256Hash(locationText))
+    }
+    const objectUrl = getEmbedUrl(locationText)
+    setEmbedUrl(objectUrl)
+
+    console.log('ismét nyommom gotLoc', objectUrl)
+  }
+
+  const getEmbedUrl = (loc: string) => {
+    let obj
+
+    if (Utils.isHexString(locationText)) {
+      obj = BEE_API_URL + '/bzz/' + loc
+
+      setEmbedUrl(obj)
+    } else {
+      obj = loc
+      setEmbedUrl(obj)
+    }
+
+    return obj
+  }
+
   return (
     <div className="App">
       <h1 onClick={goHome} style={{ cursor: 'pointer' }}>
         AnyThread
       </h1>
+      <div className="navigation">
+        <form onSubmit={handleNavigation}>
+          <input type="text" value={locationText} onChange={e => setLocationText(e.target.value)} />
+          <input className="btn" type="submit" value="Go" />
+        </form>
+      </div>
+      <Embed data={embedUrl} />
       <div className="anythread-body">
         <div id="user" style={{ marginBottom: 12, fontStyle: 'oblique' }}>
           Your user address is: {wallet.address}
