@@ -1,4 +1,4 @@
-import { Bee, Reference, Utils } from '@ethersphere/bee-js'
+import { Bee, Reference, Utils } from '@fairdatasociety/bee-js'
 import { Wallet } from 'ethers'
 import { FormEvent, InputHTMLAttributes, ReactElement, useState } from 'react'
 import { useEffect } from 'react'

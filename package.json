@@ -4,8 +4,8 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
-    "@ethersphere/bee-js": "^4.1.1",
     "@ethersphere/swarm-cid": "^0.1.0",
+    "@fairdatasociety/bee-js": "^5.0.0",
     "ethers": "^5.6.8",
     "mantaray-js": "^1.0.3",
     "react": "^18.1.0",

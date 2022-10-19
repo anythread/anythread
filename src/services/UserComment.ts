@@ -1,4 +1,4 @@
-import { Address, Bee, Reference, UploadResultWithCid, Utils } from '@ethersphere/bee-js'
+import { Address, Bee, Reference, UploadResultWithCid, Utils } from '@fairdatasociety/bee-js'
 import { isSwarmCid, STAMP_ID } from '../Utility'
 import * as SwarmCid from '@ethersphere/swarm-cid'
 import { Utils as MantarayUtils } from 'mantaray-js'
