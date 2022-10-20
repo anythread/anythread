@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { ReactElement } from 'react'
 import * as SwarmCid from '@ethersphere/swarm-cid'
-import { Bee, Reference } from '@ethersphere/bee-js'
+import { Bee, Reference } from '@fairdatasociety/bee-js'
 import { deserialiseComment } from './services/UserComment'
 import { BlobType } from './Utility'
 

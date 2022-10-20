@@ -1,7 +1,7 @@
-import { Utils as BeeJsUtils } from '@ethersphere/bee-js'
+import { Utils as BeeJsUtils } from '@fairdatasociety/bee-js'
 import { Utils as MantarayUtils } from 'mantaray-js'
 import * as SwarmCid from '@ethersphere/swarm-cid'
-import { Bytes } from '@ethersphere/bee-js/dist/types/utils/bytes'
+import { Bytes } from '@fairdatasociety/bee-js/dist/types/utils/bytes'
 import { Wallet } from 'ethers'
 
 /** Used as a rootThreat topic */

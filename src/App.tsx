@@ -2,9 +2,9 @@ import './App.css'
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import Thread from './Thread'
-import { Bee, Utils } from '@ethersphere/bee-js'
+import { Bee, Utils } from '@fairdatasociety/bee-js'
 import { Wallet } from 'ethers'
-import { HexString } from '@ethersphere/bee-js/dist/types/utils/hex'
+import { HexString } from '@fairdatasociety/bee-js/dist/types/utils/hex'
 import { HAS_SWARM_EXTENSION } from './Utility'
 
 const { hexToBytes } = Utils

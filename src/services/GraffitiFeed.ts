@@ -1,4 +1,4 @@
-import { Bee, Utils, Reference } from '@ethersphere/bee-js'
+import { Bee, Utils, Reference } from '@fairdatasociety/bee-js'
 import { Bytes } from 'mantaray-js'
 import { getEthereumAddress, HexEthAddress, STAMP_ID } from '../Utility'
 

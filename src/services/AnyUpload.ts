@@ -1,4 +1,4 @@
-import { Bee, UploadResultWithCid } from '@ethersphere/bee-js'
+import { Bee, UploadResultWithCid } from '@fairdatasociety/bee-js'
 import { getBlobType, HAS_SWARM_EXTENSION, STAMP_ID } from '../Utility'
 
 /** in bytes */
