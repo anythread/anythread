@@ -16,24 +16,12 @@ interface Props {
   contentHash: Reference // -> GraffitiFeed get users + content fetch
   level: number
   orderNo: number
-  loadingThreadId: [number, number]
   bee: Bee
-  initChildrenDoneFn: (level: number, orderNo: number) => void
-  initDoneFn: (level: number, ordnerNo: number) => void
   /** For writing direct comments */
   wallet: Wallet
 }
 
-export default function Thread({
-  contentHash,
-  level,
-  orderNo,
-  loadingThreadId,
-  bee,
-  initChildrenDoneFn,
-  initDoneFn,
-  wallet,
-}: Props) {
+export default function Thread({ contentHash, level, orderNo, bee, wallet }: Props) {
   const graffitiFeed = new GraffitiFeed(bee, Utils.hexToBytes(contentHash), VERSION_HASH)
   const [childrenElements, setChildrenElements] = useState<ReactElement[]>([])
   const [commentText, setCommentText] = useState('')
@@ -44,7 +32,9 @@ export default function Thread({
   const [gwUploadExceedesLimit, setGwUploadExceedesLimit] = useState(false)
 
   useEffect(() => {
-    initDoneFn(level, orderNo)
+    console.log('thread constructor', level, orderNo)
+
+    if (level < 1) initChildren()
     settLoading(false)
   }, [])
 
@@ -52,23 +42,12 @@ export default function Thread({
     setAnyUpload(new AnyUpload(bee))
   }, [bee])
 
-  useEffect(() => {
-    if (loadingThreadId[0] === level && loadingThreadId[1] === orderNo) {
-      // init Children Thread elements
-      console.log('start to load children threads on', loadingThreadId, bee.url)
-      initChildren()
-    }
-    // if -1, -1, then set loading more and comment section
-  }, [loadingThreadId])
-
   const initChildren = async () => {
     const record = await graffitiFeed.getLatestRecord()
 
     console.log('record', record)
 
     if (!record) {
-      initChildrenDoneFn(level, orderNo) //children has
-
       return
     }
     const ethAddresses = record.ethAddresses.map(e => hexToBytes(e)).reverse() // most recent comment is the first index
@@ -85,16 +64,12 @@ export default function Thread({
           level={level + 1}
           orderNo={Number(index)}
           bee={bee}
-          initChildrenDoneFn={initChildrenDoneFn}
-          loadingThreadId={loadingThreadId}
-          initDoneFn={initDoneFn}
           wallet={wallet}
         />,
       )
       console.log('setChildren', commentThreads)
       setChildrenElements([...childrenElements, ...commentThreads])
     }
-    initChildrenDoneFn(level, orderNo)
   }
 
   const handleAnyUpload = (files: FileList | null) => {
@@ -138,9 +113,6 @@ export default function Thread({
         level={level + 1}
         orderNo={childrenElements.length}
         bee={bee}
-        initChildrenDoneFn={initChildrenDoneFn}
-        loadingThreadId={loadingThreadId}
-        initDoneFn={initDoneFn}
         wallet={wallet}
       />,
     ]

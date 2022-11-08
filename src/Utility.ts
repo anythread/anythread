@@ -10,7 +10,7 @@ export const VERSION_HASH = MantarayUtils.keccak256Hash('633chan:v1')
 /** Handled by the gateway proxy or swarm-extension */
 export const STAMP_ID = '742fee3e9d4cebfe7aa6f6fca1ff7669a52403a9d294e9519b1be72b2ffa9527'
 
-export const HAS_SWARM_EXTENSION = Boolean(window.swarm)
+export const HAS_SWARM_EXTENSION = true
 
 export type HexEthAddress = BeeJsUtils.HexString<40>
 

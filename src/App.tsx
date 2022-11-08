@@ -6,11 +6,13 @@ import { Bee, Utils } from '@fairdatasociety/bee-js'
 import { Wallet } from 'ethers'
 import { HexString } from '@fairdatasociety/bee-js/dist/types/utils/hex'
 import { HAS_SWARM_EXTENSION } from './Utility'
+import { Swarm } from '@ethersphere/swarm-extension'
+
+const swarm = new Swarm('icoingfkhimajdejcipondccliimpgjb')
 
 const { hexToBytes } = Utils
 
 const sanitizeContentHash = (): HexString<64> => {
-  console.log('hashchange', window.location.hash)
   let hash = window.location.hash.slice(1)
 
   if (hash.startsWith('0x')) {
@@ -24,16 +26,11 @@ const sanitizeContentHash = (): HexString<64> => {
   return hash as HexString<64>
 }
 
-/** max fetched posts on one level */
-const DEFAULT_MAX_THREAD_COUNT = 3
-const BEE_API_URL = HAS_SWARM_EXTENSION
-  ? window.swarm.web2Helper.fakeBeeApiAddress()
-  : 'https://anythread.xyz/'
+const BEE_API_URL = HAS_SWARM_EXTENSION ? swarm.web2Helper.fakeBeeApiAddress() : 'https://anythread.xyz/'
 
 function App() {
   const [contentHash, setContentHash] = useState(sanitizeContentHash())
   const [bee, setBee] = useState(new Bee(BEE_API_URL))
-  const [loadingThreadId, setLoadingThreadId] = useState<[number, number]>([0, 0])
   const [wallet, setWallet] = useState(Wallet.createRandom())
 
   // constructor
@@ -59,14 +56,15 @@ function App() {
     // bee init
     if (HAS_SWARM_EXTENSION) {
       ;(async () => {
+        await swarm.register()
         //private key handling
-        const windowPrivKey = await window.swarm.localStorage.getItem('private_key')
+        const windowPrivKey = (await swarm.localStorage.getItem('private_key')) as string
 
         if (windowPrivKey) {
           setStringKey(windowPrivKey)
         } else {
           const key = wallet.privateKey.replace('0x', '')
-          await window.swarm.localStorage.setItem('private_key', key)
+          await swarm.localStorage.setItem('private_key', key)
         }
       })()
     } else {
@@ -83,34 +81,6 @@ function App() {
     }
   }, [])
 
-  const initChildrenDoneFn = (level: number, orderNo: number) => {
-    console.log(`level ${level} with orderNo ${orderNo} has been inited its children!`)
-
-    //TODO: fetch other threads
-
-    if (orderNo === DEFAULT_MAX_THREAD_COUNT) {
-      level++
-      orderNo = 0
-    }
-
-    if (level === DEFAULT_MAX_THREAD_COUNT && orderNo === DEFAULT_MAX_THREAD_COUNT) {
-      return
-    }
-
-    console.log('még mindig nyommom loadingThreadId', level, orderNo)
-
-    if (orderNo < DEFAULT_MAX_THREAD_COUNT) {
-      setLoadingThreadId([level, orderNo + 1])
-    } else if (level < DEFAULT_MAX_THREAD_COUNT) {
-      setLoadingThreadId([level + 1, orderNo])
-    }
-  }
-
-  const initDoneFn = (level: number, orderNo: number) => {
-    console.log(`level ${level} with orderNo ${orderNo} has been inited!`)
-    //TODO: register threads for init their children later
-  }
-
   const goHome = () => {
     window.location.href = window.location.href.split('#')[0]
   }
@@ -124,17 +94,7 @@ function App() {
         <div id="user" style={{ marginBottom: 12, fontStyle: 'oblique' }}>
           Your user address is: {wallet.address}
         </div>
-        <Thread
-          key={contentHash}
-          bee={bee}
-          contentHash={contentHash}
-          level={0}
-          orderNo={0}
-          loadingThreadId={loadingThreadId}
-          initChildrenDoneFn={initChildrenDoneFn}
-          initDoneFn={initDoneFn}
-          wallet={wallet}
-        />
+        <Thread key={contentHash} bee={bee} contentHash={contentHash} level={0} orderNo={0} wallet={wallet} />
       </div>
       <div style={{ paddingTop: 24 }}>
         <div hidden={HAS_SWARM_EXTENSION}>
