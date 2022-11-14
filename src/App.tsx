@@ -5,7 +5,6 @@ import Thread from './Thread'
 import { Bee, Utils } from '@fairdatasociety/bee-js'
 import { Wallet } from 'ethers'
 import { HexString } from '@fairdatasociety/bee-js/dist/types/utils/hex'
-import { HAS_SWARM_EXTENSION } from './Utility'
 import { Swarm } from '@ethersphere/swarm-extension'
 
 const swarm = new Swarm('icoingfkhimajdejcipondccliimpgjb')
@@ -26,11 +25,12 @@ const sanitizeContentHash = (): HexString<64> => {
   return hash as HexString<64>
 }
 
-const BEE_API_URL = HAS_SWARM_EXTENSION ? swarm.web2Helper.fakeBeeApiAddress() : 'https://anythread.xyz/'
+const DEFAULT_BEE_API_URL = 'http://localhost:1633/'
 
 function App() {
   const [contentHash, setContentHash] = useState(sanitizeContentHash())
-  const [bee, setBee] = useState(new Bee(BEE_API_URL))
+  const [bee, setBee] = useState(new Bee(DEFAULT_BEE_API_URL))
+  const [hasSwarmExtension, setHasSwarmExtension] = useState(false)
   const [wallet, setWallet] = useState(Wallet.createRandom())
 
   // constructor
@@ -42,6 +42,15 @@ function App() {
     }
     window.addEventListener('hashchange', valami)
 
+    // trigger hasSwarmExtension
+    swarm
+      .echo('echo')
+      .then(() => setHasSwarmExtension(true))
+      .catch(() => console.log('Swarm Extension is not available'))
+  }, [])
+
+  useEffect(() => {
+    console.log('Initing swarm extension', hasSwarmExtension)
     /** bytes represent hex keys */
     const setByteKey = (keyBytes: Uint8Array) => {
       const wallet = new Wallet(keyBytes)
@@ -53,8 +62,7 @@ function App() {
       setByteKey(keyBytes)
     }
 
-    // bee init
-    if (HAS_SWARM_EXTENSION) {
+    if (hasSwarmExtension) {
       ;(async () => {
         await swarm.register()
         //private key handling
@@ -66,6 +74,9 @@ function App() {
           const key = wallet.privateKey.replace('0x', '')
           await swarm.localStorage.setItem('private_key', key)
         }
+
+        // init Bee
+        setBee(new Bee(swarm.web2Helper.fakeBeeApiAddress()))
       })()
     } else {
       // init key
@@ -78,8 +89,11 @@ function App() {
         window.localStorage.setItem('private_key', Utils.bytesToHex(key))
         setByteKey(key)
       }
+
+      // init Bee
+      setBee(new Bee(DEFAULT_BEE_API_URL))
     }
-  }, [])
+  }, [hasSwarmExtension])
 
   const goHome = () => {
     window.location.href = window.location.href.split('#')[0]
@@ -97,14 +111,14 @@ function App() {
         <Thread key={contentHash} bee={bee} contentHash={contentHash} level={0} orderNo={0} wallet={wallet} />
       </div>
       <div style={{ paddingTop: 24 }}>
-        <div hidden={HAS_SWARM_EXTENSION}>
-          You are using now a gateway to reach P2P storage.
+        <div hidden={hasSwarmExtension}>
+          You are using now your localhost to reach P2P storage network.
           <br />
-          Please run <a href="https://docs.ethswarm.org/docs/installation/quick-start">Bee client</a> and{' '}
+          Please install
           <a href="https://chrome.google.com/webstore/detail/ethereum-swarm-extension/afpgelfcknfbbfnipnomfdbbnbbemnia">
             Swarm Extension
           </a>{' '}
-          after the gateway is disfunctional for traceless communication
+          in order to use AnyThread with non-local Bee-client and with the same profile.
         </div>
         <br />
         <a href="https://github.com/anythread/anythread">Source</a>
