@@ -32,6 +32,7 @@ function App() {
   const [bee, setBee] = useState(new Bee(DEFAULT_BEE_API_URL))
   const [hasSwarmExtension, setHasSwarmExtension] = useState(false)
   const [wallet, setWallet] = useState(Wallet.createRandom())
+  const [asyncInited, setAsyncInited] = useState(false)
 
   // constructor
   useEffect(() => {
@@ -42,14 +43,11 @@ function App() {
     }
     window.addEventListener('hashchange', valami)
 
-    // trigger hasSwarmExtension
-    swarm
-      .echo('echo')
-      .then(() => setHasSwarmExtension(true))
-      .catch(() => console.log('Swarm Extension is not available'))
+    asyncInit()
   }, [])
 
   useEffect(() => {
+    if (!asyncInited) return
     console.log('Initing swarm extension', hasSwarmExtension)
     /** bytes represent hex keys */
     const setByteKey = (keyBytes: Uint8Array) => {
@@ -94,6 +92,17 @@ function App() {
       setBee(new Bee(DEFAULT_BEE_API_URL))
     }
   }, [hasSwarmExtension])
+
+  const asyncInit = async () => {
+    // trigger hasSwarmExtension
+    try {
+      await swarm.echo('echo')
+      setHasSwarmExtension(true)
+    } catch (e) {
+      console.log('Swarm Extension is not available')
+    }
+    setAsyncInited(true)
+  }
 
   const goHome = () => {
     window.location.href = window.location.href.split('#')[0]
