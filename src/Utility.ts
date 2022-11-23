@@ -8,7 +8,7 @@ import { Swarm } from '@ethersphere/swarm-extension'
 /** Used as a rootThreat topic */
 export const VERSION_HASH = MantarayUtils.keccak256Hash('633chan:v1')
 
-export const swarm = new Swarm('icoingfkhimajdejcipondccliimpgjb')
+export const swarm = new Swarm('afpgelfcknfbbfnipnomfdbbnbbemnia')
 
 export type HexEthAddress = BeeJsUtils.HexString<40>
 
