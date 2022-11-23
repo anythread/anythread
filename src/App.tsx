@@ -131,8 +131,8 @@ function App() {
             </a>{' '}
             to your Chrome browser.<br></br>
             Otherwise, you can access it with<br></br>
-            <a href="http://bah5qcgzazzivcp3a5nsv34ixjc57d4qxepbk7u2qmh4urlssydskjznbcd6q.swarm.localhost:1633/">
-              http://bah5qcgzazzivcp3a5nsv34ixjc57d4qxepbk7u2qmh4urlssydskjznbcd6q.swarm.localhost:1633/
+            <a href="http://bah5qcgzabotxzh5gl3wj7di4xikx5fjosw6xqrqlvi3j3ovqxhatqampnbbq.swarm.localhost:1633/">
+              http://bah5qcgzabotxzh5gl3wj7di4xikx5fjosw6xqrqlvi3j3ovqxhatqampnbbq.swarm.localhost:1633/
             </a>
             <br></br>
             when your local Swarm node is running
