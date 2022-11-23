@@ -1,6 +1,9 @@
 # What is AnyThread?
 
-[DEMO](https://anythread.bzz.link)
+Global link: [https://anythread.bzz.link](https://anythread.bzz.link)
+Latest content address:
+  * Swarm hash: 0ba77c9fa65eec9f8d1cba157e952e95bd78460baa369dbab0b9c138018f6843
+  * CID: bah5qcgzabotxzh5gl3wj7di4xikx5fjosw6xqrqlvi3j3ovqxhatqampnbbq
 
 ## Inspiration
 
