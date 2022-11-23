@@ -96,6 +96,7 @@ function App() {
   const asyncInit = async () => {
     // trigger hasSwarmExtension
     setHasSwarmExtension(await swarmExtensionIsAvailable())
+    console.log('swarm extension is available', hasSwarmExtension)
     setAsyncInited(true)
   }
 

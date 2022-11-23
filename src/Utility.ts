@@ -17,7 +17,7 @@ export function swarmExtensionIsAvailable(): Promise<boolean> {
     return new Promise(async resolve => {
       setTimeout(() => {
         resolve(false)
-      }, 777)
+      }, 1500)
       const resp = await swarm.echo('echo')
       resolve(resp === 'echo')
     })
