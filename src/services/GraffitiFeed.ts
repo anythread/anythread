@@ -1,6 +1,7 @@
 import { Bee, Utils, Reference } from '@fairdatasociety/bee-js'
 import { Bytes } from 'mantaray-js'
-import { getEthereumAddress, HexEthAddress, STAMP_ID } from '../Utility'
+import { getEthereumAddress, HexEthAddress } from '../Utility'
+import { stampPicker } from './StampPicker'
 
 interface DbRecord {
   ethAddresses: HexEthAddress[]
@@ -46,10 +47,10 @@ export default class GraffitiFeed {
     const lastUpdate = await this.getLatestRecord()
     const update = lastUpdate ? mergeRecords(lastUpdate, myUpdate) : myUpdate
     const feedWriter = this.bee.makeFeedWriter('sequence', this.topic, this.privateKey)
-    const { reference } = await this.bee.uploadData(STAMP_ID, serializeDbRecord(update))
+    const { reference } = await this.bee.uploadData(stampPicker.batchId, serializeDbRecord(update))
     console.log('uploaded swarm reference of the eth address broadcast', reference)
 
-    return feedWriter.upload(STAMP_ID, reference)
+    return feedWriter.upload(stampPicker.batchId, reference)
   }
 
   public async getLatestRecord(): Promise<DbRecord | null> {

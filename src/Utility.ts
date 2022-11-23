@@ -3,16 +3,28 @@ import { Utils as MantarayUtils } from 'mantaray-js'
 import * as SwarmCid from '@ethersphere/swarm-cid'
 import { Bytes } from '@fairdatasociety/bee-js/dist/types/utils/bytes'
 import { Wallet } from 'ethers'
+import { Swarm } from '@ethersphere/swarm-extension'
 
 /** Used as a rootThreat topic */
 export const VERSION_HASH = MantarayUtils.keccak256Hash('633chan:v1')
 
-/** Handled by the gateway proxy or swarm-extension */
-export const STAMP_ID = '742fee3e9d4cebfe7aa6f6fca1ff7669a52403a9d294e9519b1be72b2ffa9527'
-
-export const HAS_SWARM_EXTENSION = Boolean(window.swarm)
+export const swarm = new Swarm('afpgelfcknfbbfnipnomfdbbnbbemnia')
 
 export type HexEthAddress = BeeJsUtils.HexString<40>
+
+export function swarmExtensionIsAvailable(): Promise<boolean> {
+  try {
+    return new Promise(async resolve => {
+      setTimeout(() => {
+        resolve(false)
+      }, 1500)
+      const resp = await swarm.echo('echo')
+      resolve(resp === 'echo')
+    })
+  } catch (e) {
+    return Promise.resolve(false)
+  }
+}
 
 export function isSwarmCid(input: string): boolean {
   // FIXME: after https://github.com/ethersphere/swarm-cid-js/issues/7

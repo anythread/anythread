@@ -3,37 +3,22 @@ import { Wallet } from 'ethers'
 import { FormEvent, InputHTMLAttributes, ReactElement, useState } from 'react'
 import { useEffect } from 'react'
 import ContentView from './ContentView'
-import AnyUpload, { MAX_GATEWAY_SIZE } from './services/AnyUpload'
+import AnyUpload from './services/AnyUpload'
 import GraffitiFeed from './services/GraffitiFeed'
 import { Comment, UserComment } from './services/UserComment'
-import { getBlobType, HAS_SWARM_EXTENSION, VERSION_HASH } from './Utility'
+import { getBlobType, VERSION_HASH } from './Utility'
 const { hexToBytes } = Utils
-
-const DEFAULT_CHILDREN_COUNT = 5
-const GW_MEGABYTES = MAX_GATEWAY_SIZE / 1024 / 1024
 
 interface Props {
   contentHash: Reference // -> GraffitiFeed get users + content fetch
   level: number
   orderNo: number
-  loadingThreadId: [number, number]
   bee: Bee
-  initChildrenDoneFn: (level: number, orderNo: number) => void
-  initDoneFn: (level: number, ordnerNo: number) => void
   /** For writing direct comments */
   wallet: Wallet
 }
 
-export default function Thread({
-  contentHash,
-  level,
-  orderNo,
-  loadingThreadId,
-  bee,
-  initChildrenDoneFn,
-  initDoneFn,
-  wallet,
-}: Props) {
+export default function Thread({ contentHash, level, orderNo, bee, wallet }: Props) {
   const graffitiFeed = new GraffitiFeed(bee, Utils.hexToBytes(contentHash), VERSION_HASH)
   const [childrenElements, setChildrenElements] = useState<ReactElement[]>([])
   const [commentText, setCommentText] = useState('')
@@ -41,25 +26,21 @@ export default function Thread({
   const [anyFile, setAnyFile] = useState<FileList | null>(null)
   const [loading, settLoading] = useState(true)
   const [anyUpload, setAnyUpload] = useState(new AnyUpload(bee))
-  const [gwUploadExceedesLimit, setGwUploadExceedesLimit] = useState(false)
+
+  const init = () => {
+    if (level < 1) initChildren()
+    settLoading(false)
+  }
 
   useEffect(() => {
-    initDoneFn(level, orderNo)
-    settLoading(false)
+    console.log('thread constructor', level, orderNo)
+    init()
   }, [])
 
   useEffect(() => {
     setAnyUpload(new AnyUpload(bee))
+    init()
   }, [bee])
-
-  useEffect(() => {
-    if (loadingThreadId[0] === level && loadingThreadId[1] === orderNo) {
-      // init Children Thread elements
-      console.log('start to load children threads on', loadingThreadId, bee.url)
-      initChildren()
-    }
-    // if -1, -1, then set loading more and comment section
-  }, [loadingThreadId])
 
   const initChildren = async () => {
     const record = await graffitiFeed.getLatestRecord()
@@ -67,8 +48,6 @@ export default function Thread({
     console.log('record', record)
 
     if (!record) {
-      initChildrenDoneFn(level, orderNo) //children has
-
       return
     }
     const ethAddresses = record.ethAddresses.map(e => hexToBytes(e)).reverse() // most recent comment is the first index
@@ -85,25 +64,16 @@ export default function Thread({
           level={level + 1}
           orderNo={Number(index)}
           bee={bee}
-          initChildrenDoneFn={initChildrenDoneFn}
-          loadingThreadId={loadingThreadId}
-          initDoneFn={initDoneFn}
           wallet={wallet}
         />,
       )
       console.log('setChildren', commentThreads)
       setChildrenElements([...childrenElements, ...commentThreads])
     }
-    initChildrenDoneFn(level, orderNo)
   }
 
   const handleAnyUpload = (files: FileList | null) => {
     setAnyFile(files)
-    setGwUploadExceedesLimit(false)
-
-    if (!files) return
-
-    if (!HAS_SWARM_EXTENSION) setGwUploadExceedesLimit(!anyUpload.checkAnythingSize(files))
   }
 
   const handleSendComment = async (e: FormEvent) => {
@@ -138,9 +108,6 @@ export default function Thread({
         level={level + 1}
         orderNo={childrenElements.length}
         bee={bee}
-        initChildrenDoneFn={initChildrenDoneFn}
-        loadingThreadId={loadingThreadId}
-        initDoneFn={initDoneFn}
         wallet={wallet}
       />,
     ]
@@ -165,14 +132,10 @@ export default function Thread({
                 multiple
                 onChange={e => handleAnyUpload(e.target.files)}
               ></input>
-              <div hidden={!gwUploadExceedesLimit}>
-                You are using gateway that has {GW_MEGABYTES} MB limit. <br />
-                Use Swarm Extension and own Bee client to upload <b>any</b>thing!
-              </div>
             </div>
             <input type="text" value={commentText} onChange={e => setCommentText(e.target.value)} />
             <input
-              disabled={gwUploadExceedesLimit || submited}
+              disabled={submited}
               className="btn"
               type="submit"
               value={submited ? 'Wait...' : 'Submit'}
