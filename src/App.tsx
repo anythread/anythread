@@ -115,6 +115,29 @@ function App() {
         <Thread key={contentHash} bee={bee} contentHash={contentHash} level={0} orderNo={0} wallet={wallet} />
       </div>
       <div style={{ paddingTop: 24 }}>
+        <div hidden={hasSwarmExtension || window.location.host.includes('localhost')}>
+          <h3>Welcome to the Web3 Forum operating on Ethereum Swarm!</h3>
+          <b>AnyThread only works with your own running Ethereum Swarm client.</b>
+          <div style={{ paddingTop: 12 }}>
+            In order to use this application, please install{' '}
+            <a href="https://docs.ethswarm.org/docs/installation/quick-start">Bee client</a> or{' '}
+            <a href="https://www.ethswarm.org/build/desktop">Swarm Desktop</a>.
+          </div>
+          <div style={{ paddingTop: 12 }}>
+            If you want to reach out the dApp with addresses https://anythread.bzz.link or bzz://anythread.eth
+            then add{' '}
+            <a href="https://chrome.google.com/webstore/detail/ethereum-swarm-extension/afpgelfcknfbbfnipnomfdbbnbbemnia">
+              Swarm Extension
+            </a>{' '}
+            to your Chrome browser.<br></br>
+            Otherwise, you can access it with<br></br>
+            <a href="http://bah5qcgza7zlvv2jkptqtz24cbxa7cs5ppomfmb2376f3apsl5zluwt6jnnca.swarm.localhost:1633/">
+              http://bah5qcgza7zlvv2jkptqtz24cbxa7cs5ppomfmb2376f3apsl5zluwt6jnnca.swarm.localhost:1633/
+            </a>
+            <br></br>
+            when your local Swarm node is running
+          </div>
+        </div>
         <div hidden={hasSwarmExtension}>
           You are using now your localhost to reach P2P storage network.
           <br />
