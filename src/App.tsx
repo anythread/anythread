@@ -131,14 +131,14 @@ function App() {
             </a>{' '}
             to your Chrome browser.<br></br>
             Otherwise, you can access it with<br></br>
-            <a href="http://bah5qcgza7zlvv2jkptqtz24cbxa7cs5ppomfmb2376f3apsl5zluwt6jnnca.swarm.localhost:1633/">
-              http://bah5qcgza7zlvv2jkptqtz24cbxa7cs5ppomfmb2376f3apsl5zluwt6jnnca.swarm.localhost:1633/
+            <a href="http://bah5qcgzazzivcp3a5nsv34ixjc57d4qxepbk7u2qmh4urlssydskjznbcd6q.swarm.localhost:1633/">
+              http://bah5qcgzazzivcp3a5nsv34ixjc57d4qxepbk7u2qmh4urlssydskjznbcd6q.swarm.localhost:1633/
             </a>
             <br></br>
             when your local Swarm node is running
           </div>
         </div>
-        <div hidden={hasSwarmExtension}>
+        <div hidden={hasSwarmExtension || !window.location.host.includes('localhost')}>
           You are using now your localhost to reach P2P storage network.
           <br />
           Please install{' '}
