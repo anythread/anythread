@@ -5,6 +5,7 @@
   "homepage": ".",
   "dependencies": {
     "@ethersphere/swarm-cid": "^0.1.0",
+    "@ethersphere/swarm-extension": "^0.7.0",
     "@fairdatasociety/bee-js": "^5.0.0",
     "ethers": "^5.6.8",
     "mantaray-js": "^1.0.3",

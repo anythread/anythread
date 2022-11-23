@@ -1,9 +1,10 @@
-import { Address, Bee, Reference, UploadResultWithCid, Utils } from '@fairdatasociety/bee-js'
-import { isSwarmCid, STAMP_ID } from '../Utility'
+import { Bee, Reference, Utils } from '@fairdatasociety/bee-js'
+import { isSwarmCid } from '../Utility'
 import * as SwarmCid from '@ethersphere/swarm-cid'
 import { Utils as MantarayUtils } from 'mantaray-js'
 import { Wallet } from 'ethers'
 import { PrefixedAddress } from '../types'
+import { stampPicker } from './StampPicker'
 
 const { hexToBytes } = Utils
 
@@ -102,8 +103,8 @@ export class UserComment {
     const ethAddressBytes = Uint8Array.from(hexToBytes(wallet.address.replace('0x', ''))) as Utils.Bytes<20>
     const topic = this.getTopic(ethAddressBytes)
     const feedWriter = this.bee.makeFeedWriter('sequence', topic, wallet.privateKey.replace('0x', ''))
-    const commentUpload = await this.bee.uploadData(STAMP_ID, serializeComment(comment))
-    await feedWriter.upload(STAMP_ID, commentUpload.reference)
+    const commentUpload = await this.bee.uploadData(stampPicker.batchId, serializeComment(comment))
+    await feedWriter.upload(stampPicker.batchId, commentUpload.reference)
 
     return commentUpload.reference
   }

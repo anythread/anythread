@@ -5,9 +5,7 @@ import Thread from './Thread'
 import { Bee, Utils } from '@fairdatasociety/bee-js'
 import { Wallet } from 'ethers'
 import { HexString } from '@fairdatasociety/bee-js/dist/types/utils/hex'
-import { Swarm } from '@ethersphere/swarm-extension'
-
-const swarm = new Swarm('icoingfkhimajdejcipondccliimpgjb')
+import { swarm, swarmExtensionIsAvailable } from './Utility'
 
 const { hexToBytes } = Utils
 
@@ -33,15 +31,16 @@ function App() {
   const [hasSwarmExtension, setHasSwarmExtension] = useState(false)
   const [wallet, setWallet] = useState(Wallet.createRandom())
   const [asyncInited, setAsyncInited] = useState(false)
+  const [globalPostageBatchEnabled, setGlobalPostageBatchEnabled] = useState(false)
 
   // constructor
   useEffect(() => {
-    const valami = () => {
-      console.log('hashchange1', window.location.hash)
+    const hashChange = () => {
+      console.log('hashchange', window.location.hash)
       const hash = sanitizeContentHash()
       setContentHash(hash)
     }
-    window.addEventListener('hashchange', valami)
+    window.addEventListener('hashchange', hashChange)
 
     asyncInit()
   }, [])
@@ -63,7 +62,8 @@ function App() {
     if (hasSwarmExtension) {
       ;(async () => {
         await swarm.register()
-        //private key handling
+        setGlobalPostageBatchEnabled(Boolean(await swarm.postageBatch.isGlobalPostageBatchEnabled()))
+        // private key handling
         const windowPrivKey = (await swarm.localStorage.getItem('private_key')) as string
 
         if (windowPrivKey) {
@@ -95,12 +95,7 @@ function App() {
 
   const asyncInit = async () => {
     // trigger hasSwarmExtension
-    try {
-      await swarm.echo('echo')
-      setHasSwarmExtension(true)
-    } catch (e) {
-      console.log('Swarm Extension is not available')
-    }
+    setHasSwarmExtension(await swarmExtensionIsAvailable())
     setAsyncInited(true)
   }
 
@@ -123,11 +118,17 @@ function App() {
         <div hidden={hasSwarmExtension}>
           You are using now your localhost to reach P2P storage network.
           <br />
-          Please install
+          Please install{' '}
           <a href="https://chrome.google.com/webstore/detail/ethereum-swarm-extension/afpgelfcknfbbfnipnomfdbbnbbemnia">
             Swarm Extension
           </a>{' '}
-          in order to use AnyThread with non-local Bee-client and with the same profile.
+          in order to use AnyThread with non-local Bee-client and keeping the same profile.
+        </div>
+
+        <div hidden={!hasSwarmExtension}>
+          <div hidden={globalPostageBatchEnabled}>
+            Enable Global Postage Stamp usage in Swarm Extension in order to write comments!
+          </div>
         </div>
         <br />
         <a href="https://github.com/anythread/anythread">Source</a>

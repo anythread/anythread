@@ -1,5 +1,6 @@
 import { Bee, UploadResultWithCid } from '@fairdatasociety/bee-js'
-import { getBlobType, STAMP_ID } from '../Utility'
+import { getBlobType } from '../Utility'
+import { stampPicker } from './StampPicker'
 
 export default class AnyUpload {
   constructor(private bee: Bee) {}
@@ -7,8 +8,8 @@ export default class AnyUpload {
   public uploadAnything(file: FileList): Promise<UploadResultWithCid> {
     const blobType = getBlobType(file)
 
-    if (blobType === 'folder') return this.bee.uploadFiles(STAMP_ID, file)
+    if (blobType === 'folder') return this.bee.uploadFiles(stampPicker.batchId, file)
 
-    return this.bee.uploadFile(STAMP_ID, file[0])
+    return this.bee.uploadFile(stampPicker.batchId, file[0])
   }
 }
