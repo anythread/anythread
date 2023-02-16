@@ -34,7 +34,7 @@ after a period of time, making this kind of solution also more sustainable in th
 
 The future is bright for AnyThread as a technology. Communities can be built around the ideas, with some extra
 business logic added on top and allowing for filtering based on tastes, friends, etc. As anyone could swith
-the "frontend" providers at any time, adoption should not be stimyed by fear of lockin, and network effects on
+the "frontend" providers at any time, adoption should not be stymied by fear of lockin, and network effects on
 the scale never seen before can be achieved.
 
 ## License
